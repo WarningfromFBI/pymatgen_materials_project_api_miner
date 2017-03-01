@@ -97,20 +97,6 @@ if __name__ == '__main__':
         # print(np.count_nonzero(y_test)/len(y_test))
         # print('\n')
 
-        # if(clfscore >0.74):
-        # #     svc = svm.SVC(kernel = 'rbf', class_weight = 'balanced');
-        # #     svc.fit(X_train, y_train);
-        # #     preds = svc.predict(X_test);
-        # #     print('SVM for the unbalanced data')
-        # #     print(confusion_matrix(preds, y_test))
-        # # svc = svm.SVC(class_weight = 'balanced');
-        #     print('\n Support Vector Machine with a Grid Parameter Search')
-        #     #C dictates how complex the decision boundary looks, gamma affects how far a single training example reaches to other data points
-        #     parameters = {'kernel':('linear', 'rbf'), 'C':[1, 10, 100, 1000],  'gamma': [0.001, 0.0001], 'class_weight': ['balanced']}
-        #     svc2 = GridSearchCV(svc, parameters, n_jobs = -1)
-        #     svc2.fit(X_train, np.squeeze(y_train))
-        #     pred = svc2.predict(X_test);
-        #     print(confusion_matrix(pred, y_test));
         #pcavis.PCAReduction(X_scaled, classifiers)
         plt.show()
 

@@ -1,8 +1,7 @@
 import numpy as np
 
-
-#Anisotropy sensitive feaures, this is for volume expansion
-#get change in the unit cell sizes
+#Anisotropy is in the literature, generally defined as differences in linear density along different
+#directions
 
 def getDeltaR(structureLith, structureUnLith):
     #the inputs are the structure elements for the lithmpid, unlithmpid
@@ -16,45 +15,36 @@ def getDeltaR(structureLith, structureUnLith):
     Atoms1 = structureLith.composition._natoms
     nonLiAtoms2 = Atoms2 - NLiUnLith;
     nonLiAtoms1 = Atoms1 - NLiLith;
-    # vlith = structureLith.volume;
-    # vunlith = structureUnLith.volume;
+    vlith = structureLith.volume; cubescalelith = vlith**(1/3);
+    vunlith = structureUnLith.volume; cubescaleunlith = vunlith**(1/3);
     redCellAtoms = structureLith.composition.reduced_composition._natoms
-    validcell = structureUnLith.composition.reduced_composition._natoms;
     formulaUnits1 = nonLiAtoms2 / redCellAtoms;  # lunithiated
     formulaUnits2 = nonLiAtoms1 / redCellAtoms;  # lithiated
 
-    NLiLithProp = NLiLith / formulaUnits2;
-    NLiUnLithProp = NLiUnLith / formulaUnits1;
+    NLiLithProp = NLiLith / formulaUnits2;  NLiUnLithProp = NLiUnLith / formulaUnits1;
 
-    xcent = latticeLith.a
-    ycent = latticeLith.b
-    zcent = latticeLith.c
-
-    xlith = latticeUnLith.a;
-    ylith = latticeUnLith.b;
-    zlith = latticeUnLith.c;
+    xunlith = latticeUnLith.a;  xlith = latticeLith.a;
+    yunlith = latticeUnLith.b; ylith = latticeLith.b;
+    zunlith = latticeUnLith.c; zlith = latticeLith.c;
+    rlith = [xlith, ylith, zlith]; runlith = [xunlith, yunlith, zunlith];
+    lithDistFromIso = [x - cubescalelith for x in rlith];
+    unlithDistFromIso = [x - cubescaleunlith for x in runlith];
+    AnisotropyVec = [(x - y) for x,y in zip(lithDistFromIso, unlithDistFromIso)];
 
     #change in lithium proportion
-
     #Normalize the change based on the amount of Li that has been inserted into the lattice
     deltaLith = NLiLith; deltaProp = NLiLithProp-NLiUnLithProp;
-    deltax = (xlith-xcent)/deltaLith;
-    deltay = (ylith-ycent)/deltaLith;
-    deltaz = (zlith-zcent)/deltaLith;
-    deltax2 = (xlith - xcent) / deltaProp ;
-    deltay2 = (ylith - ycent) / deltaProp;
-    deltaz2 = (zlith - zcent) / deltaProp;
-    anisVec = [deltax, deltay, deltaz];
-    anisotropyMean = (deltax + deltay + deltaz)/3
 
-    anisotropyLabelDict['deltax'] = deltax;
-    anisotropyLabelDict['deltay'] = deltay;
-    anisotropyLabelDict['deltaz'] = deltaz;
-    anisotropyLabelDict['deltax2'] = deltax2;
-    anisotropyLabelDict['deltay2'] = deltay2;
-    anisotropyLabelDict['deltaz2'] = deltaz2;
-    anisotropyLabelDict['anisotropyMean'] = anisotropyMean;
-    anisotropyLabelDict['max Anisotropy'] = np.max(anisVec);
+    ##ratios calculation:
+    ratios = list();
+    ratios.append((xlith/ylith - xunlith/yunlith)/deltaProp);
+    ratios.append((xlith/xunlith - zlith/zunlith)/deltaProp);
+    ratios.append((ylith/yunlith - zlith/zunlith)/deltaProp);
+
+    anisotropyLabelDict['Range Anisotropy'] = np.max(AnisotropyVec)-np.min(AnisotropyVec);
+    anisotropyLabelDict['Std Anisotropy'] = np.std((AnisotropyVec));
+    anisotropyLabelDict['Anisotropy Ratio Range'] = np.max(ratios)-np.min(ratios);
+    anisotropyLabelDict['Anisotropy Ratio Std'] = np.std((ratios))
 
     return anisotropyLabelDict;
 

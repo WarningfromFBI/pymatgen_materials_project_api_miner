@@ -8,7 +8,7 @@ from sympy import *
 
 import APIMining.MaterialsAPIMiner.AddMPIDToManifest as manifest
 import settings
-from FeatureMiner import BatteryStructureFeaturesII as BAF;
+from FeatureMiner import BatteryMatDataFeatures as BAF;
 from FeatureMiner import BatteryStructureFeatures as BSF;
 from FeatureMiner import WolvertonAtomisticFeatures as waf;
 from MaterialsProjectReader import BatteryBaseReader as bbr
@@ -22,14 +22,13 @@ structureDir = settings.MaterialsProject+'\\StructureBase'
 
 
 testcounter = 0; datframerows = list(); structureMatrix = list();
-
+materialMatrix = list();
 for filename in os.listdir(directory):
     testcounter+=1;
-    #if(testcounter>2): break;
+    #if(testcounter>5): break;
 
     print('file no. ' + str(testcounter))
-    file = open(directory + "\\" + filename, 'r')
-    batterydata = bbr.readBattery(file);
+    batterydata = bbr.readBattery(filename);
     #print(data)
 
     for i in range(len(batterydata['adj_pairs'])):
@@ -54,14 +53,14 @@ for filename in os.listdir(directory):
             datframerows.append(filename.strip('+.txt') + ', ' + matdata['pretty_formula'] + ', ' + matdatalith['pretty_formula']
                                 + ', ' + matdata['material_id'] + ', ' + matdatalith['material_id'])
 
+
         except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print("mpid: " + unlithiatedmpid)
-            manifest.AddMPIDtoManifest(lithiatedmpid);
-            manifest.AddMPIDtoManifest(unlithiatedmpid);
-            print(exc_type, fname, exc_tb.tb_lineno)
-            break;
+                print(e)
+                #raise #use raise when you want to explicitly track an error to its base line in the code
+                print("mpid: " + unlithiatedmpid+'\n')
+                manifest.AddMPIDtoManifest(lithiatedmpid);
+                manifest.AddMPIDtoManifest(unlithiatedmpid);
+                #break;
 
 labels = structureLabels;
 # print(labels);

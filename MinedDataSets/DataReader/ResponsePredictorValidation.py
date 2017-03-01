@@ -48,5 +48,54 @@ def compareFeatureSets(frame1, frame2):
     frame2 = frame2.drop(frame2.index[removeInd2])
     print('volume labels shape: ' + str(frame1.shape))
     print('feature set shape: ' + str(frame2.shape))
+    #drop any pproblematic indices
+    inds = pd.isnull(frame1).any(1).nonzero()[0]
+    frame1 = frame1.drop(frame1.index[inds])
+    frame2 = frame2.drop(frame2.index[inds])
 
     return [frame1, frame2]
+
+
+def compareMultiFeatureSets(frameList):
+    removeInd1 = list();
+    matchcounter = 0;
+    referenceFrame = None;  # this is the smallest frame
+    smallestLen = float('Inf');
+    for dataframe in frameList:
+        if (len(dataframe) < smallestLen):
+            smallestLen = len(dataframe)
+            referenceFrame = dataframe
+
+    TotalFrame = pd.DataFrame();
+    frame2 = referenceFrame;
+    frameList.remove(frame2);
+    for frame1 in frameList:
+
+        counter1 = 0;
+        for ind, row in frame1.iterrows():
+            if (ind in frame2.index):
+                matchcounter += 1;
+            else:
+                removeInd1.append(counter1);
+            counter1 += 1;
+
+        counter2 = 0;
+        removeInd2 = list();
+        matchcounter = 0;
+        for ind, row in frame2.iterrows():
+            if (ind in frame1.index):
+                matchcounter += 1;
+            else:
+                removeInd2.append(counter2);
+            counter2 += 1;
+
+        frame1 = frame1.drop(frame1.index[removeInd1])
+        frame2 = frame2.drop(frame2.index[removeInd2])
+        inds = pd.isnull(frame1).any(1).nonzero()[0]
+        frame1 = frame1.drop(frame1.index[inds])
+        frame2 = frame2.drop(frame2.index[inds])
+        TotalFrame = pd.concat([frame1, frame2], axis=1);
+        frame2 = TotalFrame;
+        print('volume labels shape: ' + str(frame1.shape))
+        print('feature set shape: ' + str(frame2.shape))
+    return TotalFrame;

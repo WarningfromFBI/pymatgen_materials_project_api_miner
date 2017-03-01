@@ -41,6 +41,44 @@ def getAllSummaryStats(unit_cell_formula):
     finalAns = np.reshape(finalAns, np.prod(d), 1)
     return [finalAns, totalLabel]; #this final answer should be of length 5*56 = 280
 
+def getReducedSummaryStats(unit_cell_formula):
+    s2 = settings.WolvertonDatabase
+    f = open(s2 + '\\' + 'elemental_features.json', 'r');
+    data = json.load(f);
+    statTypeLabel = ['unwmean', 'unwstd'];
+    totalLabel = list();
+    totalunweight = list();
+    labelCounter = 0;
+
+    for elem in unit_cell_formula: #the unit_cell_formula only iterates through elements with no weights (
+        #the unit cell formula is a dictionary with element: no of elements
+        element = data[elem];
+        unweightedDat = list(); #this is a list containing ALL the individual elemental features
+        for key in element:
+            if(labelCounter == 0):
+                for j in range(len(statTypeLabel)):
+                    totalLabel.append(key+' '+statTypeLabel[j]);
+            number = element[key];
+            unweightedDat.append(number);
+        totalunweight.append(unweightedDat); #this is the total data array, which will contain a 56 element unweighted data
+        #array for every atom in the unit cell.
+        labelCounter+=1;
+
+    t1 = np.array(totalunweight); #t1 is formatted so that you have elements on rows, features on columns
+    d1 = t1.shape;
+    finalAns = list();
+    for i in range(d1[1]):
+        avg = np.mean(t1[:,i])
+        std = np.std(t1[:,i])
+        answer = [avg, std];
+        finalAns += (answer)
+    finalAns = np.array(finalAns)
+    d = finalAns.shape;
+    finalAns = np.reshape(finalAns, np.prod(d), 1)
+    return [finalAns, totalLabel]; #this final answer should be of length 5*56 = 280
+
+
+
 def getWeightedStats(unit_cell_formula):
     s2 = settings.WolvertonDatabase;
     f = open(s2 + '\\' + 'elemental_features.json', 'r');

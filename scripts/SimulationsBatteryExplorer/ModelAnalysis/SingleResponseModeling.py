@@ -9,61 +9,69 @@ from sklearn import preprocessing
 from sklearn.metrics import confusion_matrix
 import MinedDataSets.DataReader.FeatureAndLabelExtractor as fle;
 from sklearn.neural_network import MLPClassifier
-import ModelAnalysis.Sampling.TwoClassSampling as tcs;
+import LabelMiner.ClassifierCreation.LabelDistributionClassifiers as ldc
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
-import MinedDataSets.DataReader.ResponsePredictorValidation as rpv
-import scripts.DataScraping.TrainingSetFiltering.FilterbyLithiumLevel as fll
 from sklearn import svm
 import pandas as pd
 import random
 import ModelAnalysis.PCA as pcavis
-
-
+import MinedDataSets.DataReader.CombineFeatureSets as cfs
+import MinedDataSets.DataReader.ResponsePredictorValidation as rpv
+import scripts.DataScraping.TrainingSetFiltering.FilteringFunctions as ff
+import scripts.DataScraping.TrainingSetFiltering.MultiFiltering as mf
+import settings
+import LabelMiner.ClassifierCreation.PhaseChange as pc
 if __name__ == '__main__':
     plt.close("all")
-    [vlabels, data, X] = fle.getFilteredLabelsFeatures('noLiInitialFeatures', 'noLiInitialLabels')
     vlabels = fle.getLabels('volumeLabels');
-    Xsymmetry = fle.getFeatures('StructureFeatures')
-    Xstruct = fle.getFeatures('SymmetryFeatures');
+    [Xall, X_nparr] = fle.getFeatures('UnLayered')
+    #[Xall, X_nparr] = fle.getFeatures('AllStructureFeatures')
 
-    [Xstruct, Xsym] = rpv.compareFeatureSets(Xstruct[0], Xsymmetry[0]);
-    [Xsym, symLabels] = rpv.compareFeatureSets(Xsym, vlabels)
-    X = np.concatenate((Xsym.values, Xstruct.values), axis=1);
-    print('vlabels: '+str(vlabels.shape))
-    [ff1, ff2] = fll.filterByInitialLithium('AtomisticFeatures')
-    [ff3, ff4] = fll.filterByInitialLithium('StructureFeatures')
-    [X2, symLabels] = rpv.compareFeatureSets(ff1, vlabels);
-    [X3, X2] = rpv.compareFeatureSets(ff3, X2)
-    counter = 0;
-    Xfinal = np.concatenate((X2.values,X3.values), axis = 1)
-    X_scaled = preprocessing.scale(Xfinal);
+    print(Xall.shape)
+    [X1, X2] = ff.FilterByLithiumFraction(0.25, Frame=Xall)
+    X1 = Xall
+    print(X1.shape)
+    [X1, X2] = ff.filterByInitialLithium(Frame=X1)
+    #[X1, x] = fle.getFeaturesII(settings.MinedFeatureSets+'\\FeatureSelectionSets\\ForwardFeatureSelectiondVweight.csv')
+    #[X2, X1] = ff.FilterByPreservedCrystalSys(Frame=X1) actually, the model predicts phase changing and non-phase changing equally well
+    [X, vlabels] = rpv.compareFeatureSets(X1, vlabels);
+    X_scaled = preprocessing.scale(X);
+
     #X_scaled = X
     print('feature shape: '+str(X.shape))
     counter = 0;
-
-    y = symLabels['dVweight'];
+    y = vlabels['dVweight'];
     classifiers = list();
     for i in y:
-        if(i > np.mean(y)):
+        if(i > np.percentile(y, 50)):
             classifiers.append(1)
         else:
             classifiers.append(0)
-    yclass = np.array(classifiers).reshape(len(classifiers),1);
+    classifiers = pc.PhaseChange(vlabels)
+    #classifiers = ldc.createTernaryClassifier(y, 25, 75)
+    # classifiers = list();
+    # for i in y:
+    #     if(i > 0):
+    #         classifiers.append(1)
+    #     else:
+    #         classifiers.append(0)
+    yclass = np.array(classifiers)
 
     X_train, X_test, y_train, y_test = train_test_split(X_scaled, yclass, test_size=0.33)
 
     # POTENTIAL MODELS
-    clf = linear_model.LogisticRegression()
-    svc = svm.SVC(); #rbf is radial basis function, poly = nonlinear
     print('\nneural network')
-    ann = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(10,10), random_state=1)
+    ann = MLPClassifier(solver='lbfgs', alpha=10, hidden_layer_sizes=(10,1), random_state=1, activation = 'tanh', learning_rate='adaptive')
     ann.fit(X_train, y_train)
     pred = ann.predict(X_test);
     print(confusion_matrix(pred, y_test))
     print(ann.score(X_test, y_test))
+    scores = cross_val_score(ann, X_scaled, np.squeeze(yclass), cv = 20)
+    print('cross validation: ' + str(np.mean(scores)))
 
     print("logistic regression")
+    clf = linear_model.LogisticRegression(class_weight='balanced')
     clf.fit(X_train, y_train);
     pred = clf.predict(X_test);
     miscal  = np.count_nonzero(pred.reshape(len(pred),1)-y_test)/len(pred)
@@ -71,10 +79,22 @@ if __name__ == '__main__':
     print(confusion_matrix(pred, y_test));
     print(clfscore)
     print(np.count_nonzero(y_test)/len(y_test))
-    #scores = cross_val_score(clf, X_scaled, classifiers, cv = 5); #y has to be a list
-    #print("cross validation: "+str(scores))
+    scores = cross_val_score(clf, X_scaled, classifiers, cv = 20); #y has to be a list
+    print("log reg cross validation: "+str(np.mean(scores)))
 
-    print('\n RandomForest')
+    print('\n SVC')
+    ## PYTHON's RANDOM FOREST
+    svmach = svm.SVC(kernel='rbf', C = 1000, gamma = 0.0001)
+    svmach.fit(X_train, y_train);
+    preds = svmach.predict(X_test);
+    print(confusion_matrix(preds, y_test))
+    print(svmach.score(X_test,y_test))
+    print(np.count_nonzero(y_test)/len(y_test))
+    scores = cross_val_score(svmach, X_scaled, classifiers, cv= 20);  # y has to be a list
+    print("random forest cross validation: " + str(np.mean(scores)))
+    print('\n')
+
+    print('\n Random Forest')
     ## PYTHON's RANDOM FOREST
     extc = ExtraTreesClassifier()
     rfc = RandomForestClassifier(n_jobs=4)
@@ -83,7 +103,10 @@ if __name__ == '__main__':
     print(confusion_matrix(preds, y_test))
     print(rfc.score(X_test,y_test))
     print(np.count_nonzero(y_test)/len(y_test))
+    scores = cross_val_score(rfc, X_scaled, classifiers, cv = 20);  # y has to be a list
+    print("SVC cross validation: " + str(np.mean(scores)))
     print('\n')
+
     # parameters = { 'n_estimators': random.randint(100, 5000), 'max_features' : ['auto', None], 'min_samples_split' : random.randint(2, 6) }
     # sl2 = RandomizedSearchCV(rfc, parameters, n_jobs = -1);
     # sl2.fit(X_train, y_train);
@@ -95,23 +118,12 @@ if __name__ == '__main__':
     print(confusion_matrix(preds, y_test))
     print(extc.score(X_test,y_test))
     print(np.count_nonzero(y_test)/len(y_test))
+    scores = cross_val_score(extc, X_scaled, classifiers, cv=10);  # y has to be a list
+    print("random forest cross validation: " + str(np.mean(scores)))
     print('\n')
 
-    # if(clfscore >0.74):
-    # #     svc = svm.SVC(kernel = 'rbf', class_weight = 'balanced');
-    # #     svc.fit(X_train, y_train);
-    # #     preds = svc.predict(X_test);
-    # #     print('SVM for the unbalanced data')
-    # #     print(confusion_matrix(preds, y_test))
-    # # svc = svm.SVC(class_weight = 'balanced');
-    #     print('\n Support Vector Machine with a Grid Parameter Search')
-    #     #C dictates how complex the decision boundary looks, gamma affects how far a single training example reaches to other data points
-    #     parameters = {'kernel':('linear', 'rbf'), 'C':[1, 10, 100, 1000],  'gamma': [0.001, 0.0001], 'class_weight': ['balanced']}
-    #     svc2 = GridSearchCV(svc, parameters, n_jobs = -1)
-    #     svc2.fit(X_train, np.squeeze(y_train))
-    #     pred = svc2.predict(X_test);
-    #     print(confusion_matrix(pred, y_test));
-    #pcavis.PCAReduction(X_scaled, classifiers)
+
+    pcavis.PCAReduction(X_scaled, classifiers)
     plt.show()
 
 

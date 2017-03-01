@@ -6,30 +6,29 @@ from sklearn.metrics import confusion_matrix
 import MinedDataSets.DataReader.FeatureAndLabelExtractor as fle;
 import pandas as pd
 from pandas.tools.plotting import scatter_matrix
+import MinedDataSets.DataReader.ResponsePredictorValidation as rpv
 
 
 plt.close("all")
-[vlabels, Data, X, anisotropylabels] = fle.getLabelsFeatures('AllFeatures');
+vlabels = fle.getLabels('volumeLabels');
+[X, Xarr] = fle.getFeatures('ReducedAllFeatures')
+[X, vlabels] = rpv.compareFeatureSets(X, vlabels);
+
 counter = 0;
 X_scaled = preprocessing.scale(X);
-varray = list();
-for i in vlabels:
-    varray.append(vlabels[i])
 
 plt.figure()
-corrcoeffmatrix = np.corrcoef(varray)
+corrcoeffmatrix = np.corrcoef(vlabels)
 plt.plot(corrcoeffmatrix)
 plt.show()
 for i in range(len(corrcoeffmatrix)):
     print(np.max(corrcoeffmatrix[:,i]));
     print(np.mean(abs(corrcoeffmatrix[:,i])))
-varray = np.array(varray)
 print('feature shape: '+str(X.shape))
-counter = 0;
+
 plt.figure()
-pandavol = pd.DataFrame(vlabels);
-scatter_matrix(pandavol)
-plt.show()
+scatter_matrix(vlabels)
+
 
 
 

@@ -53,7 +53,6 @@ def volumeLabels(batterydict, lithstruct, unlithstruct):
     #print('nDischarge: '+str(nDischarge)+', '+str(NLiLith/LithTotAtoms)); #just a basic check
 
     dVsign = (vlith/formulaUnits2 - vunlith/formulaUnits1) / (vunlith/formulaUnits1);
-    dVunNorm = (vlith-vunlith)/vunlith;
     dVpermass = (vlith/lithweight - vunlith/unlithweight)/(vunlith/unlithweight);
 
     #Accumulate proposed volume features
@@ -65,23 +64,24 @@ def volumeLabels(batterydict, lithstruct, unlithstruct):
     #volLabelDict['dVnormNumDensnorPerFormulaUnit'] = dVunNorm / ((NLiLith/vlith)*NLiLithProp - (NLiUnLith/vunlith)*NLiUnLithProp);  ##Measure #3
 
     volLabelDict['VnormLiFrac'] = (vlith*nDischarge - vunlith*nCharge)/(vlith*nDischarge) #BEST FITTED LABEL
-    #volLabelDict['VnormLiFormFrac'] = (vlith*NLiLithProp - vunlith*NLiUnLithProp)/(vlith*NLiLithProp) #this is trivial...model can differentiate between compounds with lithium
     #and compounds without it (unintercalated version), which is to say, I can just do this by looking at the formulas
     volLabelDict['dVperAtom'] = ((vlith/LithTotAtoms - vunlith/UnlithTotAtoms) / (vunlith/UnlithTotAtoms))/(NLiLith/LithTotAtoms-NLiUnLith/UnlithTotAtoms); #GOOD
    # volLabelDict['dVperLiVolumeWeighted'] = (vlith/LiVolFracLith - vunlith/LiVolFracUnlith) / (NLiLith/LiVolFracLith - NLiUnLith/LiVolFracUnlith);
     volLabelDict['dVraw'] =  dVsign
-    volLabelDict['dVraw2'] = dVunNorm
     volLabelDict['dVraw3'] = dVpermass;
     #volLabelDict['dVperAtom2'] = dVperAtom / (nDischarge - nCharge)
     volLabelDict['dVoriginal'] = dV; #this is not sign sensitive
-    #volLabelDict['VoverLi'] = (vlith - vunlith) / (NLiLith - NLiUnLith);
+    volLabelDict['VoverLi'] = ((vlith - vunlith)/vunlith) / (NLiLith - NLiUnLith);
 
     #everything here is normalized by the volume...the unit is mass
     volLabelDict['dVdensity'] = (lithweight/vlith - unlithweight/vunlith)/(unlithweight/vunlith)/ (NLiLith/vlith - NLiUnLith/vunlith)
     #this is basically the inverse of density
     volLabelDict['dVweight'] = dVpermass/(NLiLith/lithweight - NLiUnLith/unlithweight); #REALLY GOOD
-    volLabelDict['dvnormweight'] = dVpermass/(lithweight-unlithweight);
-    volLabelDict['dvnormweight2'] = dVpermass/(LithiumAW*(NLiLith-NLiUnLith))
+    volLabelDict['dvnormweight'] = dVpermass/(lithweight-unlithweight); #this is in change in entire unit cell mass
+    volLabelDict['dvnormweight2'] = dVpermass/(LithiumAW*(NLiLith-NLiUnLith)) #this is change in lithium mass
+
+    volLabelDict['VolRatio'] = (vlith/lithweight)/(vunlith/unlithweight) #just a random idea, i.e. can we just predict final volumes?
+
     return volLabelDict;  # THIS SHOULD PRODUCE SAME RESULT
     # AS BATTERY EXPLORER DATA
 

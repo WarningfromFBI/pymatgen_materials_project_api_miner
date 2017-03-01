@@ -8,9 +8,7 @@ from sympy import *
 
 import APIMining.MaterialsAPIMiner.AddMPIDToManifest as manifest
 import settings
-from FeatureMiner import BatteryStructureFeaturesII as BAF;
-from FeatureMiner import BatteryStructureFeatures as BSF;
-from FeatureMiner import WolvertonAtomisticFeatures as waf;
+import MaterialsProjectReader.StructureBaseReader as sbr;
 from MaterialsProjectReader import BatteryBaseReader as bbr
 from MaterialsProjectReader import MegaBaseReader as mbf;
 from FeatureMiner import BatterySymmetryFeatures as BsymF
@@ -26,10 +24,8 @@ testcounter = 0; datframerows = list(); symmetryMatrix = list();
 for filename in os.listdir(directory):
     testcounter+=1;
     #if(testcounter>2): break;
-
     print('file no. ' + str(testcounter))
-    file = open(directory + "\\" + filename, 'r')
-    batterydata = bbr.readBattery(file);
+    batterydata = bbr.readBattery(filename);
     #print(data)
 
     for i in range(len(batterydata['adj_pairs'])):
@@ -46,9 +42,7 @@ for filename in os.listdir(directory):
         try:
             [matdata, structuredata] = mbf.readCompound(mpfile)
             [matdatalith, structuredatalith] = mbf.readCompound(mpfile2)
-            structureClassUnLith = pickle.load(open(structureDir+'\\'+unlithiatedmpid+'.p', 'rb'));
-            ##================STRUCTURAL FEATURE EXTRACTION===============================#
-
+            structureClassUnLith = sbr.readStructure(unlithiatedmpid);
 
             ##================SYMMETRY DATA================================#
             [symmetrydata, symmetryLabels] = BsymF.GetAllSymmetries(structureClassUnLith);
@@ -59,6 +53,7 @@ for filename in os.listdir(directory):
 
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
+            #raise
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print("mpid: " + unlithiatedmpid)
             manifest.AddMPIDtoManifest(lithiatedmpid);

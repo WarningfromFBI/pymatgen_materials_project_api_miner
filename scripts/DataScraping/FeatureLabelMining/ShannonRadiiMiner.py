@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np;
 import re
 import json
+import xlrd
 ShannonBase = settings.MaterialsProject+'\\ShannonRadii';
 
 dataframe = pd.read_csv(ShannonBase+'\\'+'Radii.csv', index_col = 0);
@@ -39,8 +40,6 @@ for i in d2.values:
     newdict['crystal_radius'] = i[6]
     newdict['Z/IR'] = i[8]
     ShannonPoints[key].append(newdict)
-
-
 #write the new dictionary as a json file
 
 f = open(ShannonBase +'\\ShannonRadiiDictionary.json', 'w');

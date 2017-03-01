@@ -81,7 +81,7 @@ names = labels;
 
 ##---WRITE LABELS TO A CSV FILE
 volumeLabels = pd.DataFrame(volumesNormStoich, columns = labels, index = rownames);
-volumeLabels.to_csv(MinedDataSets+'\\volumeLabels.csv');
+volumeLabels.to_csv(settings.DynamicFeatureSets+'\\VolumeLabels\\volumeLabels.csv');
 
 #Now perform the validation
 

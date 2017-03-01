@@ -2,65 +2,61 @@ from sklearn import preprocessing
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn import linear_model
-from sklearn.linear_model import Ridge;
 from sklearn import svm;
 from sklearn.model_selection import train_test_split;
 from sklearn.model_selection import cross_val_score
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import confusion_matrix
-import ModelAnalysis.Sampling.TwoClassSampling as tcs;
 import settings
 import ModelAnalysis.PCA as pca
 import MinedDataSets.DataReader.FeatureAndLabelExtractor as fle
 from pandas.tools.plotting import table
 from sklearn.ensemble import RandomForestClassifier
-
+import MinedDataSets.DataReader.CombineFeatureSets as cfs
+import MinedDataSets.DataReader.ResponsePredictorValidation as rpv
+import scripts.DataScraping.TrainingSetFiltering.FilteringFunctions as ff
+import LabelMiner.ClassifierCreation.PhaseChange as pc
 plt.close("all")
-datadirectory = settings.MinedFeatureSets + '\\FeatureSets';
-labeldirectory = settings.MinedFeatureSets + '\\VolumeLabels';
-filtereddirectory = settings.MinedFeatureSets + '\\FilteredDataSets'
-vlabels = pd.read_csv(labeldirectory+'\\volumeLabels.csv', index_col = 0);
-anisotropylabels = pd.read_csv(labeldirectory+'\\anisotropyLabels.csv');
-data = pd.read_csv(datadirectory+'\\AllFeatures.csv', index_col = 0);
-# Convert data pdframe to np array
 
-counter = 0; X = list();
-for k in data.keys():
-    if(counter == 0):
-        counter+=1;
-        continue;
-    X.append(data[k].values);
-X = np.array(X); X = np.transpose(X)
-counter = 0;
+vlabels = fle.getLabels('volumeLabels');
+[Xall, X_nparr] = fle.getFeatures('UnLayered')
+#[Xall, X_nparr] = fle.getFeatures('AllStructureFeatures')
 
-[vlabels, data, X] = fle.getFilteredLabelsFeatures('noLiInitialFeatures', 'noLiInitialLabels')
-experimentlabels = vlabels
-X = preprocessing.scale(X);
+print(Xall.shape)
+[X1, X2] = ff.FilterByLithiumFraction(0.25, Frame=Xall)
+print(X1.shape)
+[X1, X2] = ff.filterByInitialLithium(Frame=X1)
+#[X1, x] = fle.getFeaturesII(settings.MinedFeatureSets+'\\FeatureSelectionSets\\ForwardFeatureSelectiondVweight.csv')
+#[X2, X1] = ff.FilterByPreservedCrystalSys(Frame=X1) actually, the model predicts phase changing and non-phase changing equally well
+[X, vlabels] = rpv.compareFeatureSets(X1, vlabels);
+
+#Scaling is absolutely critical otherwise the model will prefer features with intrinsicially large variances
+X_scaled = preprocessing.scale(X);
+
+
 ##DATA Summary
 print('feature shape: '+str(X.shape))
-
-for i in (experimentlabels.keys()):
+counter = 0;
+for i in (vlabels.keys()):
     counter+=1;
-    y = experimentlabels[i].values; #some of our y's are coming out with 1893 samples, but the X features only has 1891 samples
+    y = vlabels[i]
     print('\n')
     print(i + ", " + str(y.shape))
-    [train, intermed, ytrain, yintermed] = tcs.TwoClassSeparatedLabels(X,y, 100,0);
-    Xsplit = X;
-    ysplit = y;
 
     clf = linear_model.LogisticRegression();
-    clf = linear_model.LogisticRegressionCV();
+    #clf = linear_model.LogisticRegressionCV();
     #clfcv.fit
     classifiers = list();
-    for j in ysplit:
+    for j in y:
         if(j > np.mean(y)):
             classifiers.append(1)
         else:
             classifiers.append(0)
+    #classifiers = pc.PhaseChange(vlabels);
     yclass = np.array(classifiers).reshape(len(classifiers),1);
 
-    X_train, X_test, y_train, y_test = train_test_split(Xsplit, yclass, test_size=0.33, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X_scaled, yclass, test_size=0.33, random_state=42)
     try:
         clf.fit(X_train, y_train);
         pred = clf.predict(X_test);
@@ -68,8 +64,8 @@ for i in (experimentlabels.keys()):
         s = clf.score(X_test, y_test);
         pos = np.count_nonzero(y_test) / len(y_test)
         neg = 1-pos
-        if(s - max([pos, neg]) < 0.1):
-            continue;
+        # if(s - max([pos, neg]) < 0.1):
+        #     continue;
 
         #cross validation
         #scores = cross_val_score(clf, Xsplit, np.squeeze(yclass), cv = 10);
@@ -91,7 +87,8 @@ for i in (experimentlabels.keys()):
         plt.ylabel('counts')
         plt.xlabel('value of volume label')
         plt.rcParams.update({'font.size': 22})
-        d = data.shape;
+        #pca.PCAReduction(X_scaled, classifiers)
+
 
     except Exception as e:
         print(e)
@@ -109,5 +106,6 @@ for i in (experimentlabels.keys()):
     #     plt.figure()
     #     plt.scatter(X[:,i], y, s = 200, c = classifiers, cmap = 'viridis_r') #'viridis_r
 
+pca.PCAReduction(X_scaled, classifiers)
 plt.show()
 

@@ -8,7 +8,7 @@ from sympy import *
 
 import APIMining.MaterialsAPIMiner.AddMPIDToManifest as manifest
 import settings
-from FeatureMiner import BatteryStructureFeaturesII as BAF;
+from FeatureMiner import BatteryMatDataFeatures as BAF;
 from FeatureMiner import BatteryStructureFeatures as BSF;
 from FeatureMiner import WolvertonAtomisticFeatures as waf;
 from MaterialsProjectReader import BatteryBaseReader as bbr
@@ -28,8 +28,7 @@ for filename in os.listdir(directory):
     #if(testcounter>2): break;
 
     print('file no. ' + str(testcounter))
-    file = open(directory + "\\" + filename, 'r')
-    batterydata = bbr.readBattery(file);
+    batterydata = bbr.readBattery(filename);
     #print(data)
     for i in range(len(batterydata['adj_pairs'])):
         dischargeState = batterydata['adj_pairs'][i];
@@ -48,7 +47,7 @@ for filename in os.listdir(directory):
             structureClassUnLith = pickle.load(open(structureDir+'\\'+unlithiatedmpid+'.p', 'rb'));
             ##================WolvertonATOM FEATURE EXTRACTION===============================#
 
-            [feat, atomisticLabels] = waf.getAllSummaryStats(matdata['unit_cell_formula'])
+            [feat, atomisticLabels] = waf.getReducedSummaryStats(matdata['unit_cell_formula'])
             [feat2, weightedlabel] = waf.getWeightedStats(matdata['unit_cell_formula']);
             atomisticMatrix.append(feat);
             weightedAtom.append(np.squeeze(feat2))
@@ -83,6 +82,8 @@ print('data shape:' + str(TotalData.shape));
 print('length of labels: ' + str(len(labels)));
 
 datframe = pd.DataFrame(TotalData, columns=labels, index=datframerows);
-datframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\AtomisticFeatures.csv');
+weightedframe = pd.DataFrame(weightedAtom, columns = weightedlabel, index = datframerows)
+datframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\ReducedAtomisticFeatures.csv');
+weightedframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\WeightedAtomisticFeatures.csv')
 # scatter_matrix(datframe)
 
