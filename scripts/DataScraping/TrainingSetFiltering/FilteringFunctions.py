@@ -1,9 +1,9 @@
 import settings
 import pandas as pd
 import MinedDataSets.DataReader.FeatureAndLabelExtractor as fle
-import LabelMiner.ClassifierCreation.CrystalSystem as cs
-import MaterialsProjectReader.MegaBaseReader as MBR;
-import MaterialsProjectReader.StructureBaseReader as SBR;
+import label_miner_functions.ClassifierCreation.CrystalSystem as cs
+import database_reader_functions.MegaBaseReader as MBR;
+import database_reader_functions.StructureBaseReader as SBR;
 datadir = settings.MinedFeatureSets+'\\VolumeLabels'
 labeldir = settings.MinedFeatureSets+'\\FeatureSets'
 layeredDir = settings.MaterialsProject+'\\LithiumBatteryCompounds'

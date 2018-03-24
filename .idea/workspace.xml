@@ -5,83 +5,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="984753bc-ba2c-477f-8054-3be4a59fcd83" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/feature_miner_functions/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/APIMining/MaterialsAPIMiner/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/__init__.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/APIMining/BatteryAPIMiner/BatteryDataPull.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/APIMining/BatteryAPIMiner/BatteryDataPull2API.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/APIMining/BatteryAPIMiner/BatteryExplorerQuery.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/APIMining/BatteryAPIMiner/IntercalationExpansionMiner.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/APIMining/MaterialsAPIMiner/AddMPIDToManifest.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/APIMining/MaterialsAPIMiner/MaterialDataExtractor.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/APIMining/MaterialsAPIMiner/MaterialExplorerStructurePickle.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/APIMining/MaterialsAPIMiner/mpids.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/DataStorage/StoreData.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/DataStorage/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ModelAnalysis/AutoFitModel/LogisticReg.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ModelAnalysis/AutoFitModel/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ModelAnalysis/CorrelationMatrix.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ModelAnalysis/ModelClass/Model.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ModelAnalysis/ModelClass/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ModelAnalysis/PCA.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ModelAnalysis/Sampling/TwoClassSampling.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ModelAnalysis/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PeriodicElementsMining/GetAllNumericPropertiesOfElement.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mpids.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/PrototypeCode/FeatureSpaceMiner.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/PrototypeCode/LithiumAccessor.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/PrototypeCode/LithiumCompoundBinariesTernariesCreator.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/PrototypeCode/LithiumCompoundSubgrouping.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/PrototypeCode/pymatgentest.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/CompoundGroupingByLabel.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/BackwardFeatureSelection.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/BestSubsetSelection.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/ForwardBackwardCombination.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/ForwardFeatureSelection.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/RandomizedLogisticRegression.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/SimulatedAnnealing.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/SimulatedAnnealingFunc.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/topFeatures.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/topfeatureschi.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/ModelTestingWithDifferentVolumeLabels.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/MultiModelTesting.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/Regression.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/SingleResponseModeling.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/SingleResponseNeuralNetwork.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/SingleResponseSVM.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/topFeatures.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/topfeatureschi.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/WolvertonDataValidation.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/topFeatures.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/topfeatureschi.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/BatteryExpansion.iml" afterPath="$PROJECT_DIR$/.idea/BatteryExpansion.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/DataScraping/FeatureCleaning/FeatureFilteringByDataProperties.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/LatticeExpansionAnalysis/ExpansionBehaviorAnalysis.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/LatticeExpansionAnalysis/LiBatteryExplorerExpansion.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/LatticeExpansionAnalysis/LithiumDictionaryExpansionAnalysis.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/Miscellaneous/BatteryAnalysisOnly.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/Miscellaneous/BatteryDatabaseAnalysisDischargePhaseCycle.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ResponseVariableAnalysis/InterResponseCorrelation.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsMaterialsExplorer/BatteryDatabaseAnalysisFromLCExplorer.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsMaterialsExplorer/LCEExplorerII.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsMaterialsExplorer/LithiumBinaryCompoundsMiner.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsMaterialsExplorer/LithiumCompoundAggregatorfromLCExplorer.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsMaterialsExplorer/LithiumCompoundsExplorer.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsMaterialsExplorer/LithiumTernaryCompoundsMiner.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SimulationsMaterialsExplorer/MaterialsLithiumExpansion.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LabelMiner/ClassifierCreation/PhaseChange.py" afterPath="$PROJECT_DIR$/LabelMiner/ClassifierCreation/PhaseChange.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LabelMiner/LabelMiningHelper/LMHelperPickleStruct.py" afterPath="$PROJECT_DIR$/LabelMiner/LabelMiningHelper/LMHelperPickleStruct.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MaterialsProjectReader/BatteryBaseHelperFunctions.py" afterPath="$PROJECT_DIR$/MaterialsProjectReader/BatteryBaseHelperFunctions.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/feature_miner_functions/BatterySymmetryFeatures.py" afterPath="$PROJECT_DIR$/feature_miner_functions/BatterySymmetryFeatures.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/AnisotropyLabelMining.py" afterPath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/AnisotropyLabelMining.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/BatteryFeatureMinerII.py" afterPath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/BatteryFeatureMinerII.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_matdata.py" afterPath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_matdata.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_shannon.py" afterPath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_shannon.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_structure.py" afterPath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_structure.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_symmetry.py" afterPath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_symmetry.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_wolverton.py" afterPath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_wolverton.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/Miscellaneous/BatteryAnalysisOnly.py" afterPath="$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/Miscellaneous/BatteryAnalysisOnly.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.py" afterPath="$PROJECT_DIR$/settings.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/APIMining/__init__.py" afterPath="$PROJECT_DIR$/feature_miner_functions/FeatureMinerHelper/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FeatureMiner/BatteryMatDataFeatures.py" afterPath="$PROJECT_DIR$/feature_miner_functions/BatteryMatDataFeatures.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FeatureMiner/BatteryShannonFeatures.py" afterPath="$PROJECT_DIR$/feature_miner_functions/BatteryShannonFeatures.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FeatureMiner/BatteryStructureFeatures.py" afterPath="$PROJECT_DIR$/feature_miner_functions/BatteryStructureFeatures.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FeatureMiner/BatterySymmetryFeatures.py" afterPath="$PROJECT_DIR$/feature_miner_functions/BatterySymmetryFeatures.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FeatureMiner/FeatureMinerHelper/CalculationHelpers.py" afterPath="$PROJECT_DIR$/feature_miner_functions/FeatureMinerHelper/CalculationHelpers.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FeatureMiner/FeatureMinerHelper/ShannonHelpers.py" afterPath="$PROJECT_DIR$/feature_miner_functions/FeatureMinerHelper/ShannonHelpers.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FeatureMiner/FeatureMinerHelper/__init__.py" afterPath="$PROJECT_DIR$/feature_miner_functions/FeatureMinerHelper/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FeatureMiner/WolvertonAtomisticFeatures.py" afterPath="$PROJECT_DIR$/feature_miner_functions/WolvertonAtomisticFeatures.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FeatureMiner/ZhaoStructuralFeatures.py" afterPath="$PROJECT_DIR$/feature_miner_functions/ZhaoStructuralFeatures.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/FeatureMiner/__init__.py" afterPath="$PROJECT_DIR$/scripts/APIMining/BatteryAPIMiner/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PeriodicElementsMining/__init__.py" afterPath="$PROJECT_DIR$/scripts/APIMining/MaterialsAPIMiner/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/VolumeLabelMining.py" afterPath="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/VolumeLabelMining.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/DataScraping/TrainingSetFiltering/FilteringFunctions.py" afterPath="$PROJECT_DIR$/scripts/DataScraping/TrainingSetFiltering/FilteringFunctions.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/BatteryAnisotropyFeature.py" afterPath="$PROJECT_DIR$/label_miner_functions/BatteryAnisotropyFeature.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/BatteryVolumeEnergyFeature.py" afterPath="$PROJECT_DIR$/label_miner_functions/BatteryVolumeEnergyFeature.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/BatteryVolumeExpansionFeature.py" afterPath="$PROJECT_DIR$/label_miner_functions/BatteryVolumeExpansionFeature.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/ClassifierCreation/CrystalSystem.py" afterPath="$PROJECT_DIR$/label_miner_functions/ClassifierCreation/CrystalSystem.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/ClassifierCreation/LabelDistributionClassifiers.py" afterPath="$PROJECT_DIR$/label_miner_functions/ClassifierCreation/LabelDistributionClassifiers.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/ClassifierCreation/PhaseChange.py" afterPath="$PROJECT_DIR$/label_miner_functions/ClassifierCreation/PhaseChange.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/ClassifierCreation/__init__.py" afterPath="$PROJECT_DIR$/label_miner_functions/ClassifierCreation/__init__.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/GetAllResponseVariables.py" afterPath="$PROJECT_DIR$/label_miner_functions/GetAllResponseVariables.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/LabelMiningHelper/LMHelperFunctions.py" afterPath="$PROJECT_DIR$/label_miner_functions/LabelMiningHelper/LMHelperFunctions.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/LabelMiningHelper/LMHelperPickleStruct.py" afterPath="$PROJECT_DIR$/label_miner_functions/LabelMiningHelper/LMHelperPickleStruct.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/LabelMiningHelper/VolumeStatisticsCalculator.py" afterPath="$PROJECT_DIR$/label_miner_functions/LabelMiningHelper/VolumeStatisticsCalculator.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/LabelMiningHelper/__init__.py" afterPath="$PROJECT_DIR$/label_miner_functions/LabelMiningHelper/__init__.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/VolumeExpansionVariablePyMagten.py" afterPath="$PROJECT_DIR$/label_miner_functions/VolumeExpansionVariablePyMagten.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LabelMiner/__init__.py" afterPath="$PROJECT_DIR$/label_miner_functions/__init__.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/MaterialsProjectReader/BatteryBaseHelperFunctions.py" afterPath="$PROJECT_DIR$/database_reader_functions/BatteryBaseHelperFunctions.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/MaterialsProjectReader/BatteryBaseReader.py" afterPath="$PROJECT_DIR$/database_reader_functions/BatteryBaseReader.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/MaterialsProjectReader/MegaBaseReader.py" afterPath="$PROJECT_DIR$/database_reader_functions/MegaBaseReader.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/MaterialsProjectReader/StructureBaseReader.py" afterPath="$PROJECT_DIR$/database_reader_functions/StructureBaseReader.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/MaterialsProjectReader/__init__.py" afterPath="$PROJECT_DIR$/database_reader_functions/__init__.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -157,7 +125,7 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
       <file leaf-file-name="BatteryAnisotropyFeature.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LabelMiner/BatteryAnisotropyFeature.py">
+        <entry file="file://$PROJECT_DIR$/label_miner_functions/BatteryAnisotropyFeature.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="33" column="19" lean-forward="false" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
@@ -169,29 +137,21 @@
       <file leaf-file-name="VolumeLabelMining.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/VolumeLabelMining.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="880">
+            <state relative-caret-position="828">
               <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LabelDistributionClassifiers.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/LabelMiner/ClassifierCreation/LabelDistributionClassifiers.py">
+      <file leaf-file-name="BatteryFeatureMinerII.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/BatteryFeatureMinerII.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="9" column="22" lean-forward="false" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="30" />
-              <folding />
+            <state relative-caret-position="330">
+              <caret line="15" column="39" lean-forward="true" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -264,7 +224,6 @@
         <option value="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_symmetry.py" />
         <option value="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_structure.py" />
         <option value="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/StructureFeatureMiner.py" />
-        <option value="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/BatteryFeatureMinerII.py" />
         <option value="$PROJECT_DIR$/LabelMiner/ClassifierCreation/LabelDistributionClassifiers.py" />
         <option value="$PROJECT_DIR$/scripts/DataScraping/TrainingSetFiltering/FilteringFunctions.py" />
         <option value="$PROJECT_DIR$/FeatureMiner/BatteryStructureFeaturesConventionalUnitCell.py" />
@@ -296,6 +255,7 @@
         <option value="$PROJECT_DIR$/APIMining/BatteryAPIMiner/BatteryExplorerQuery.py" />
         <option value="$PROJECT_DIR$/MaterialsProjectReader/BatteryBaseHelperFunctions.py" />
         <option value="$PROJECT_DIR$/APIMining/MaterialsAPIMiner/materials_structure_extractor.py" />
+        <option value="$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/BatteryFeatureMinerII.py" />
       </list>
     </option>
   </component>
@@ -790,22 +750,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/StructureFeatureMiner.py" />
-    <entry file="file://$PROJECT_DIR$/FeatureMiner/BatteryStructureFeaturesConventionalUnitCell.py" />
-    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/ShannonRadiiMiner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="823">
-          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_matdata.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="858">
-          <caret line="63" column="42" lean-forward="true" selection-start-line="63" selection-start-column="42" selection-end-line="63" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/ForwardBackwardCombination.py" />
     <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/PartitionedFeatureSetMining/BatteryFeatureMinerIII_shannon.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -825,13 +769,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
           <caret line="34" column="41" lean-forward="true" selection-start-line="34" selection-start-column="41" selection-end-line="34" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/BatteryFeatureMinerII.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="759">
-          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -873,7 +810,7 @@
     <entry file="file://$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/SimulatedAnnealingFunc.py" />
     <entry file="file://$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/ForwardFeatureSelection.py" />
     <entry file="file://$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/FeatureSelection/SimulatedAnnealing.py" />
-    <entry file="file://$PROJECT_DIR$/LabelMiner/ClassifierCreation/CrystalSystem.py">
+    <entry file="file://$PROJECT_DIR$/label_miner_functions/ClassifierCreation/CrystalSystem.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -888,14 +825,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/SingleResponseModeling.py" />
-    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/VolumeLabelMining.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/SimulationsBatteryExplorer/ModelAnalysis/ModelTestingWithDifferentVolumeLabels.py" />
     <entry file="file://$PROJECT_DIR$/scripts/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -926,14 +855,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LabelMiner/ClassifierCreation/PhaseChange.py">
+    <entry file="file://$PROJECT_DIR$/label_miner_functions/ClassifierCreation/PhaseChange.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="418">
           <caret line="19" column="34" lean-forward="true" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#56#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LabelMiner/BatteryAnisotropyFeature.py">
+    <entry file="file://$PROJECT_DIR$/label_miner_functions/BatteryAnisotropyFeature.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="33" column="19" lean-forward="false" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
@@ -973,7 +905,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MaterialsProjectReader/BatteryBaseHelperFunctions.py">
+    <entry file="file://$PROJECT_DIR$/database_reader_functions/BatteryBaseHelperFunctions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="10" column="42" lean-forward="true" selection-start-line="10" selection-start-column="42" selection-end-line="10" selection-end-column="42" />
@@ -1069,7 +1001,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LabelMiner/BatteryVolumeEnergyFeature.py">
+    <entry file="file://$PROJECT_DIR$/label_miner_functions/BatteryVolumeEnergyFeature.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1077,7 +1009,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MaterialsProjectReader/BatteryBaseReader.py">
+    <entry file="file://$PROJECT_DIR$/database_reader_functions/BatteryBaseReader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1093,11 +1025,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LabelMiner/ClassifierCreation/LabelDistributionClassifiers.py">
+    <entry file="file://$PROJECT_DIR$/label_miner_functions/ClassifierCreation/LabelDistributionClassifiers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="9" column="22" lean-forward="false" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/VolumeLabelMining.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="828">
+          <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/AnisotropyLabelMining.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/FilterVolumesByBattFamily.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#31#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureCleaning/FeatureFilteringByDataProperties.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/ExecuteAll.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/DataScraping/FeatureLabelMining/BatteryFeatureMinerII.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="15" column="39" lean-forward="true" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -7,8 +7,8 @@ import pandas as pd
 from sympy import *
 
 import settings
-from MaterialsProjectReader import BatteryBaseReader as bbr
-from MaterialsProjectReader import MegaBaseReader as mbf;
+from database_reader_functions import BatteryBaseReader as bbr
+from database_reader_functions import MegaBaseReader as mbf;
 from feature_miner_functions import BatteryShannonFeatures as BSF;
 
 #this is the shannon feature miner for specific pairing with the pymatgen ionvalence analyzer...Problem is that not all

@@ -5,7 +5,7 @@ import settings
 import feature_miner_functions.FeatureMinerHelper.CalculationHelpers as ch
 import pymatgen.analysis.bond_valence as pabv;
 import pymatgen.symmetry.analyzer as psa
-import LabelMiner.ClassifierCreation.CrystalSystem as cs
+import label_miner_functions.ClassifierCreation.CrystalSystem as cs
 import pymatgen.analysis.elasticity.strain as paes
 import copy
 import time

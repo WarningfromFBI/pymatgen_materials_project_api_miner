@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-import LabelMiner.BatteryAnisotropyFeature as baf
-import MaterialsProjectReader.MegaBaseReader as mbf;
-import MaterialsProjectReader.StructureBaseReader as SBR
+import label_miner_functions.BatteryAnisotropyFeature as baf
+import database_reader_functions.MegaBaseReader as mbf;
+import database_reader_functions.StructureBaseReader as SBR
 import settings
 
 plt.close("all")

@@ -6,13 +6,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-import LabelMiner.VolumeExpansionVariablePyMagten as VEVP
-import MaterialsProjectReader.MegaBaseReader as mbf
-import LabelMiner.BatteryAnisotropyFeature as anfeat
+import label_miner_functions.VolumeExpansionVariablePyMagten as VEVP
+import database_reader_functions.MegaBaseReader as mbf
+import label_miner_functions.BatteryAnisotropyFeature as anfeat
 import settings
-from LabelMiner import BatteryVolumeEnergyFeature as bve
-from LabelMiner import BatteryVolumeExpansionFeature as BVEF;
-import MaterialsProjectReader as mpr;
+from label_miner_functions import BatteryVolumeEnergyFeature as bve
+from label_miner_functions import BatteryVolumeExpansionFeature as BVEF;
+import database_reader_functions as mpr;
 
 plt.close("all")
 structureclasses = settings.MaterialsProject +'\\StructureBase'
