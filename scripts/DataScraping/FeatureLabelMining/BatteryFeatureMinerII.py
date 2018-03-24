@@ -1,17 +1,13 @@
-import os;
-import sys;
-import pickle
-from multiprocessing import Pool
 import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-from sympy import *
-import APIMining.MaterialsAPIMiner.AddMPIDToManifest as manifest
-from MaterialsProjectReader import BatteryBaseReader as bbr
-from MaterialsProjectReader import MegaBaseReader as mbf;
 import MinedDataSets.DataReader.ResponsePredictorValidation as rpv
 import MinedDataSets.DataReader.FeatureAndLabelExtractor as fle
 import settings
+import matplotlib.pyplot as plt
+
+import MinedDataSets.DataReader.FeatureAndLabelExtractor as fle
+import MinedDataSets.DataReader.ResponsePredictorValidation as rpv
+import settings
+
 plt.close("all")
 
 [data1, X1] = fle.getFeatures('StructureFeatures');

@@ -4,7 +4,6 @@ import LabelMiner.ClassifierCreation.CrystalSystem as cs
 
 
 def PhaseChange(volumeLabels):
-
     classifiers = list(); crystalSysLabel = list();
     for i in volumeLabels.index:
         labels = str(i).split(', ')

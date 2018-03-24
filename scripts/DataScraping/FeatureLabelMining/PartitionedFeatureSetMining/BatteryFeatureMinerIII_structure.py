@@ -1,19 +1,16 @@
 import os;
 import pickle
-import sys
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sympy import *
 
-import APIMining.MaterialsAPIMiner.AddMPIDToManifest as manifest
+import APIMining as manifest
 import settings
-from FeatureMiner import BatteryMatDataFeatures as BAF;
-from FeatureMiner import BatteryStructureFeatures as BSF;
-from FeatureMiner import WolvertonAtomisticFeatures as waf;
 from MaterialsProjectReader import BatteryBaseReader as bbr
 from MaterialsProjectReader import MegaBaseReader as mbf;
-from FeatureMiner import BatterySymmetryFeatures as BsymF
+from feature_miner_functions import BatteryStructureFeatures as BSF;
 
 plt.close("all")
 

@@ -1,4 +1,4 @@
-import FeatureMiner.FeatureMinerHelper.CalculationHelpers as ch
+import feature_miner_functions.FeatureMinerHelper.CalculationHelpers as ch
 
 def getLiVolumeFraction(pickleStruct):
     LiVol = 0; TotVol = 0;

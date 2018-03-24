@@ -1,7 +1,7 @@
 import os
 
-basedirectory = 'D:\\Nathan\Documents\StanfordYearOne\Reed Group\BatteryExpansion'
-MaterialsProject = basedirectory+'\\MaterialsProject'
+basedirectory = 'D:\\Documents\\Battery\\pymatgen_materials_project_api_miner'
+MaterialsProject = os.path.join(basedirectory,'\\MaterialsProject')
 WolvertonDatabase = MaterialsProject+'\\WolvertonDatabase'
 
 FeatureSets = basedirectory+'\\MinedDataSets';

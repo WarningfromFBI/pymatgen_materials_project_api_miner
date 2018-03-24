@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 # this script allows you to mine the battery database and then perform the model analysis simultaneously
 
-# FeatureMiner Directory
+# feature_miner_functions Directory
 # Model Directory
 
 

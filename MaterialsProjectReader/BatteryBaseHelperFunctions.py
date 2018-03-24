@@ -1,24 +1,6 @@
-import time
-import pymatgen as mg
-import numpy as np
-import scipy
-import matplotlib.pyplot as plt
-import pandas as pd
-from sympy import *
-import os
-import string
-from pymatgen.matproj.rest import MPRester
-from pymatgen.phasediagram.maker import PhaseDiagram
-from pymatgen.electronic_structure.plotter import BSPlotter;
-from pymatgen import core
-from mpl_toolkits.mplot3d import Axes3D;
-import requests;
-import math
-import re; import csv
-import json
 
-def get_battery_data(formula_or_batt_id):
-    return mpr._make_request('/battery/%s' % formula_or_batt_id)
+from sympy import *
+import re; import csv
 
 def BatterySearchGenerator(elements):
     counter = 0; hyphenIndices = list();

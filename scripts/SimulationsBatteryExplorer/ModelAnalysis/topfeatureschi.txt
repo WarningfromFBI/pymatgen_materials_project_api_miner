@@ -1,2 +1,0 @@
-
-responseHeatFusion unwmeanHeatFusion maxHeatFusion rangeHeatCapacityMolar unwmean
