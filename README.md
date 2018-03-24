@@ -1,2 +1,7 @@
-# BatteryMachineLearning
-Holistic model development to predict battery technical specifications (up to 88% accuracy) using ANNs, Random Forests, and SVMs
+# api_miner
+series of functions to mine the Materials Project Battery Explorer as well as the materials database
+(see scripts API Miner)
+
+## mining the api extracted data
+there is an additional set of functions which further mines the raw database to generate features and labels
+for battery machine learning
