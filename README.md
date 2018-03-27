@@ -6,4 +6,5 @@ note that to use these scripts, you must have an account on Materials Project (f
 
 ## mining the api extracted data
 there is an additional set of functions which further mines the raw database to generate features and labels
-for battery machine learning
+for battery machine learning, which is a separate repository you can check to see state of the art machine learning algorithms
+
