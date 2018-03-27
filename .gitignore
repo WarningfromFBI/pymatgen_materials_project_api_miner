@@ -4,4 +4,4 @@ MinedDataSets/StagedDataSets
 *.json
 *.csv
 *.txt
-
+*.p
