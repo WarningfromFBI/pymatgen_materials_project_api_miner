@@ -6,7 +6,12 @@ import time
 import settings
 import pickle
 import APIMining.MaterialsAPIMiner.AddMPIDToManifest as manifest
-
+'''
+ fundamental difference between this and the materials_data_and_structure is that this thing mines the structure
+ as a pymatgen structure object, so there's a higher level of abstraction and also accessibility to all of pymatgens
+ structure functions, which can be useful
+ 
+'''
 MAPI_KEY = 'kT08xPXKwuvhfBdb';
 MP_ID = 'mp-19017';
 mpr = MPRester(MAPI_KEY);
@@ -22,6 +27,7 @@ for i in f:
     while c:
         try:
             filename = mpid + '.p';
+            #check if we already have it, no use in remining it...
             if (os.path.isfile(structureBase + '\\' + filename)):
                 print('found')
                 break;
@@ -40,7 +46,8 @@ for i in f:
         except Exception as e:
             print(e);
             manifest.AddMPIDtoManifest(mpid);
-            time.sleep(10)
+            time.sleep(1);
+            print('moving on');
             continue
     # if (counter > 5):
     #      break;

@@ -13,16 +13,22 @@ import settings
 from label_miner_functions import BatteryVolumeEnergyFeature as bve
 from label_miner_functions import BatteryVolumeExpansionFeature as BVEF;
 import database_reader_functions as mpr;
+import settings
+import os
+import pandas as pd
+''' 
+volume label miner, though this will eventually become a holistic label miner
+output should be csv file of the labels that we need for the ML model
+'''
 
 plt.close("all")
-structureclasses = settings.MaterialsProject +'\\StructureBase'
-batteries = settings.MaterialsProject+ '\\LithiumBatteryExplorer';
-MinedDataSets = settings.DynamicFeatureSets+'\\VolumeLabels'
+structureclasses = os.path.join(settings.basedirectory,'structure_database')
+batteries = os.path.join(settings.basedirectory+ 'Battery_Explorer'); ## note you might have to change this last name
 testcounter = 0;
 
 volumesNormStoich = list(); rownames= list();
 volumesNormEnergy = list();
-for filename in os.listdir(batteries):
+for filename in os.listdir(batteries): # LIST ALL THE FILES IN THE BATTERY EXPLORER
     testcounter += 1;
     file = open(batteries + "\\" + filename, 'r')
     data = "";
@@ -30,6 +36,11 @@ for filename in os.listdir(batteries):
         data = json.loads(line);
     print(data)
     maxVol = 0;
+
+    ## for each battery element, we need to iterate through all the battery stages, each one is a separate compound pair
+
+    ## ================================================================================================================
+
     for i in range(len(data['adj_pairs'])):
         dischargeState = data['adj_pairs'][i];
         if(dischargeState['max_delta_volume'] > maxVol):
@@ -42,35 +53,35 @@ for filename in os.listdir(batteries):
         unlithiatedmpid = data['adj_pairs'][i]['id_charge'];
         lithiatedmpid = data['adj_pairs'][i]['id_discharge']
         batterydict = data['adj_pairs'][i];
-        mpfile = unlithiatedmpid+'.txt'; mpfile2 = lithiatedmpid+'.txt';
-        try:
-            ## THIS IS THE ONLY PLACE WHERE WE READ ANY FILES
-            [matdata, structuredata] = mpr.MegaBaseReader.readCompound(mpfile)
-            [matdatalith, structuredatalith] = mpr.MegaBaseReader.readCompound(mpfile2)
-            lithstruct = pickle.load(open(structureclasses + '\\' + batterydict['id_discharge'] + '.p', 'rb'));
-            unlithstruct = pickle.load(open(structureclasses + '\\' + batterydict['id_charge'] + '.p', 'rb'))
+        # mpfile = unlithiatedmpid+'.txt'; mpfile2 = lithiatedmpid+'.txt';
+        # try:
+        #     ## THIS IS THE ONLY PLACE WHERE WE READ ANY FILES
+        #     [matdata, structuredata] = mpr.MegaBaseReader.readCompound(mpfile)
+        #     [matdatalith, structuredatalith] = mpr.MegaBaseReader.readCompound(mpfile2)
+        #     lithstruct = pickle.load(open(structureclasses + '\\' + batterydict['id_discharge'] + '.p', 'rb'));
+        #     unlithstruct = pickle.load(open(structureclasses + '\\' + batterydict['id_charge'] + '.p', 'rb'))
+        #
+        #     lith = [matdatalith, structuredatalith]; unlith = [matdata, structuredata];
+        #     #Check the phases are teh same
+        #
+        #     labels = ""
+        #     ##=======================APPLY MINING FUNCTIONS TO GET DATA =====================================#
+        #     volLabels = VEVP.volumeLabels(batterydict, lithstruct, unlithstruct);
+        #     volenergyLabels = bve.deltaVolNormCapacity(batterydict, lith, unlith, lithstruct, unlithstruct);
+        #     if(volLabels == -1 or volenergyLabels == -1): #this is the case where there was no data for one of the component compounds
+        #         continue;
+        #     batteryid = (data['battid']+', '+batterydict['formula_charge']+', '+batterydict['formula_discharge'] +
+        #             ', ' + matdata['material_id'] + ', ' + matdatalith['material_id'])
+        #     #Getanisotropylabels
+        #     anisotropyLabels = anfeat.getDeltaR(lithstruct, unlithstruct);
+        #     rownames.append(batteryid)
+        #     volumesNormStoich.append(list(volLabels.values())+list(volenergyLabels.values())+list(anisotropyLabels.values()));
+        #     labels = list(volLabels.keys())+list(volenergyLabels.keys())+list(anisotropyLabels.keys());
 
-            lith = [matdatalith, structuredatalith]; unlith = [matdata, structuredata];
-            #Check the phases are teh same
-
-            labels = ""
-            ##=======================APPLY MINING FUNCTIONS TO GET DATA =====================================#
-            volLabels = VEVP.volumeLabels(batterydict, lithstruct, unlithstruct);
-            volenergyLabels = bve.deltaVolNormCapacity(batterydict, lith, unlith, lithstruct, unlithstruct);
-            if(volLabels == -1 or volenergyLabels == -1): #this is the case where there was no data for one of the component compounds
-                continue;
-            batteryid = (data['battid']+', '+batterydict['formula_charge']+', '+batterydict['formula_discharge'] +
-                    ', ' + matdata['material_id'] + ', ' + matdatalith['material_id'])
-            #Getanisotropylabels
-            anisotropyLabels = anfeat.getDeltaR(lithstruct, unlithstruct);
-            rownames.append(batteryid)
-            volumesNormStoich.append(list(volLabels.values())+list(volenergyLabels.values())+list(anisotropyLabels.values()));
-            labels = list(volLabels.keys())+list(volenergyLabels.keys())+list(anisotropyLabels.keys());
-
-        except Exception as e: #generally designed to deal with problems when a file does not exist
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print(exc_type, fname, exc_tb.tb_lineno)
+        # except Exception as e: #generally designed to deal with problems when a file does not exist
+        #     exc_type, exc_obj, exc_tb = sys.exc_info()
+        #     fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        #     print(exc_type, fname, exc_tb.tb_lineno)
 
 
 print(labels); volumesNormStoich = np.array(volumesNormStoich)

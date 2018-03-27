@@ -1,6 +1,5 @@
+
 import matplotlib.pyplot as plt
-import MinedDataSets.DataReader.ResponsePredictorValidation as rpv
-import MinedDataSets.DataReader.FeatureAndLabelExtractor as fle
 import settings
 import matplotlib.pyplot as plt
 import os
