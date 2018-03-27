@@ -1,2 +1,7 @@
 MaterialsProject/
 MinedDataSets/StagedDataSets
+
+*.json
+*.csv
+*.txt
+
