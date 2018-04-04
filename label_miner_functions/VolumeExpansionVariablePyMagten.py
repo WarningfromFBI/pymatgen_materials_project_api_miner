@@ -6,7 +6,7 @@ import pymatgen as mg
 
 import label_miner_functions.LabelMiningHelper.LMHelperFunctions as lmh
 import label_miner_functions.LabelMiningHelper.LMHelperPickleStruct as lmp
-import database_reader_functions.MegaBaseReader as mbf
+import database_reader_functions.materials_project_reader as mbf
 import settings
 
 ## IMPORTANT NOTE

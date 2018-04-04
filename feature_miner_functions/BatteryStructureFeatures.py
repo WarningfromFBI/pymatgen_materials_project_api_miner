@@ -8,9 +8,10 @@ import feature_miner_functions.FeatureMinerHelper.ShannonHelpers as sh
 import copy
 import pymatgen.analysis.bond_valence as pabv;
 import pymatgen.symmetry.analyzer as psa
+import os
 
-structureDir = settings.MaterialsProject+'\\StructureBase'
-ShannonBase = settings.MaterialsProject+'\\ShannonRadii'
+structureDir = os.path.join(settings.ROOT_DIR, 'structure_database')
+ShannonBase = os.path.join(settings.ROOT_DIR, 'Shannon_Radii')
 ShannonData = json.load(open(ShannonBase+'\\ShannonRadiiDictionary.json', 'r'));
 
 def Forces(sitesDat):#input is the sites datastructure from the structures_asdict from structures_query

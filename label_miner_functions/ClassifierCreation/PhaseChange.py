@@ -1,5 +1,5 @@
-import database_reader_functions.StructureBaseReader as SBR
-import database_reader_functions.MegaBaseReader as MBR
+import database_reader_functions.structure_reader as SBR
+import database_reader_functions.materials_project_reader as MBR
 import label_miner_functions.ClassifierCreation.CrystalSystem as cs
 
 

@@ -2,7 +2,7 @@ import os;
 import sys;
 
 import label_miner_functions.LabelMiningHelper.LMHelperFunctions as lmh
-import database_reader_functions.MegaBaseReader as mbf
+import database_reader_functions.materials_project_reader as mbf
 ## IMPORTANT NOTE
 # DISCHARGE = LITHIATED
 # CHARGE = UNLITHIATED

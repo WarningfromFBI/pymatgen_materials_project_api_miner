@@ -5,21 +5,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sympy import *
-
-import APIMining as manifest
+import sys
+from database_reader_functions.AddMPIDToManifest import *
 import settings
-from database_reader_functions import BatteryBaseReader as bbr
-from database_reader_functions import MegaBaseReader as mbf;
+from database_reader_functions import battery_base_reader as bbr
+from database_reader_functions import materials_project_reader as mbf;
 from feature_miner_functions import BatteryMatDataFeatures as BAF;
 
 plt.close("all")
 
-directory = settings.basedirectory + '\\MaterialsProject\LithiumBatteryExplorer';
-structureDir = settings.MaterialsProject+'\\StructureBase'
-
+directory = os.path.join(settings.ROOT_DIR,'Battery_Explorer');
+structureDir = os.path.join(settings.ROOT_DIR, 'structure_database');
 
 testcounter = 0; datframerows = list();
 materialMatrix = list();
+
 for filename in os.listdir(directory):
     testcounter+=1;
     #if(testcounter>2): break;
@@ -42,7 +42,7 @@ for filename in os.listdir(directory):
         try:
             [matdata, structuredata] = mbf.readCompound(mpfile)
             [matdatalith, structuredatalith] = mbf.readCompound(mpfile2)
-            structureClassUnLith = pickle.load(open(structureDir+'\\'+unlithiatedmpid+'.p', 'rb'));
+            structureClassUnLith = pickle.load(open(os.path.join(structureDir, unlithiatedmpid+'.p'), 'rb'));
             ##================STRUCTURAL FEATURE EXTRACTION===============================#
 
 
@@ -72,8 +72,8 @@ for filename in os.listdir(directory):
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                 print("mpid: " + unlithiatedmpid)
-                manifest.AddMPIDtoManifest(lithiatedmpid);
-                manifest.AddMPIDtoManifest(unlithiatedmpid);
+                AddMPIDtoManifest(lithiatedmpid);
+                AddMPIDtoManifest(unlithiatedmpid);
                 print(exc_type, fname, exc_tb.tb_lineno)
                 break;
 
@@ -93,11 +93,7 @@ print('data shape:' + str(TotalData.shape));
 print('length of labels: ' + str(len(labels)));
 
 datframe = pd.DataFrame(TotalData, columns=labels, index=datframerows);
-datframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\MatDataFeatures.csv');
+datframe.to_csv(os.path.join(settings.ROOT_DIR, 'data_dump', 'MatDataFeatures.csv'));
 # scatter_matrix(datframe)
 
-################################### SOME BASIC ANALYSES ##############################################################
-# print(datframe)
-
-##Perform data validation
 

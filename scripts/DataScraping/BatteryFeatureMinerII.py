@@ -3,9 +3,12 @@ import matplotlib.pyplot as plt
 import settings
 import matplotlib.pyplot as plt
 import os
-import MinedDataSets.DataReader.FeatureAndLabelExtractor as fle
 import MinedDataSets.DataReader.ResponsePredictorValidation as rpv
 import settings
+
+'''
+These scripts compile all individually mined features into one LARGE feature .csv file
+'''
 
 plt.close("all")
 

@@ -3,9 +3,13 @@ import os;
 import sys;
 import settings
 
-def readCompound(filename):
+'''
+function designed to read the JSON formatted text files of the materials project
+'''
+
+def readCompound(filename, directory = 'Materials_Project_Database'):
     try:  # access the individual compound data files
-        with open(settings.MaterialsProject+'\\MegaBase'+'\\'+filename, 'r') as x:
+        with open(os.path.join(settings.ROOT_DIR, directory, filename), 'r') as x:
             # We have to do the volume things from the battery data here since there could be some gaps in the materials database
             matdata = "";
             structuredata = "";

@@ -1,6 +1,6 @@
 import re as r
 
-import database_reader_functions.MegaBaseReader as mbf
+import database_reader_functions.materials_project_reader as mbf
 
 
 ###################=========AUXILIARY FUNCTIONS=============#########################

@@ -1,12 +1,19 @@
 
-##Read out all the Shannon radii data into a data file...write a version to our materials project database
-#we want the dataset so that we can access everything by an element key, then get access to all remaining data.
+
 import settings
 import pandas as pd
 import numpy as np;
 import re
 import json
 import xlrd
+
+'''
+this script requires the existence of a .csv file containing Shannon Radii formatted in a particular way
+Read out all the Shannon radii data into a data file...write a version to our materials project database
+we want the dataset so that we can access everything by an element key, then get access to all remaining data.
+
+'''
+
 ShannonBase = settings.MaterialsProject+'\\ShannonRadii';
 
 dataframe = pd.read_csv(ShannonBase+'\\'+'Radii.csv', index_col = 0);

@@ -1,28 +1,29 @@
 import os;
+import pickle
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sympy import *
 
-import APIMining as manifest
-import database_reader_functions.StructureBaseReader as sbr;
+from database_reader_functions.AddMPIDToManifest import *
 import settings
-from database_reader_functions import BatteryBaseReader as bbr
-from database_reader_functions import MegaBaseReader as mbf;
-from feature_miner_functions import BatterySymmetryFeatures as BsymF
+from database_reader_functions import battery_base_reader as bbr
+from database_reader_functions import materials_project_reader as mbf;
+from feature_miner_functions import BatteryStructureFeatures as BSF;
 
 plt.close("all")
 
-directory = settings.basedirectory + '\\MaterialsProject\LithiumBatteryExplorer';
-structureDir = settings.MaterialsProject+'\\StructureBase'
+directory = os.path.join(settings.ROOT_DIR,'Battery_Explorer');
+structureDir = os.path.join(settings.ROOT_DIR, 'structure_database');
 
 
-testcounter = 0; datframerows = list(); symmetryMatrix = list();
-
+testcounter = 0; datframerows = list(); structureMatrix = list();
+materialMatrix = list();
 for filename in os.listdir(directory):
     testcounter+=1;
-    #if(testcounter>2): break;
+    #if(testcounter>5): break;
+
     print('file no. ' + str(testcounter))
     batterydata = bbr.readBattery(filename);
     #print(data)
@@ -41,33 +42,30 @@ for filename in os.listdir(directory):
         try:
             [matdata, structuredata] = mbf.readCompound(mpfile)
             [matdatalith, structuredatalith] = mbf.readCompound(mpfile2)
-            structureClassUnLith = sbr.readStructure(unlithiatedmpid);
+            structureClassUnLith = pickle.load(open(structureDir+'\\'+unlithiatedmpid+'.p', 'rb'));
+            ##================STRUCTURAL FEATURE EXTRACTION===============================#
 
-            ##================SYMMETRY DATA================================#
-            [symmetrydata, symmetryLabels] = BsymF.GetAllSymmetries(structureClassUnLith);
-            print(symmetrydata)
-            symmetryMatrix.append(symmetrydata);
+            [structuredata, structureLabels] = BSF.GetAllStructureFeatures(structuredata, structureClassUnLith);
+            structureMatrix.append(structuredata)
             datframerows.append(filename.strip('+.txt') + ', ' + matdata['pretty_formula'] + ', ' + matdatalith['pretty_formula']
                                 + ', ' + matdata['material_id'] + ', ' + matdatalith['material_id'])
 
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            #raise
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print("mpid: " + unlithiatedmpid)
-            manifest.AddMPIDtoManifest(lithiatedmpid);
-            manifest.AddMPIDtoManifest(unlithiatedmpid);
-            print(exc_type, fname, exc_tb.tb_lineno)
-            break;
 
-labels = symmetryLabels;
+        except Exception as e:
+                print(e)
+                #raise #use raise when you want to explicitly track an error to its base line in the code
+                print("mpid: " + unlithiatedmpid+'\n')
+                AddMPIDtoManifest(lithiatedmpid);
+                AddMPIDtoManifest(unlithiatedmpid);
+                #break;
+
+labels = structureLabels;
 # print(labels);
 print(len(labels))
 names = labels;
 
-symmetryMatrix = np.array(symmetryMatrix);
-
-TotalData = symmetryMatrix
+structureMatrix = np.array(structureMatrix);
+TotalData = structureMatrix
 # Create separate csv files for the structures and for the atomistic
 
 # atomisticMatrix = np.concatenate((atomisticMatrix,np.array(v2).reshape((len(v2),4))), axis = 1)
@@ -77,11 +75,6 @@ print('data shape:' + str(TotalData.shape));
 print('length of labels: ' + str(len(labels)));
 
 datframe = pd.DataFrame(TotalData, columns=labels, index=datframerows);
-datframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\SymmetryFeatures.csv');
+datframe.to_csv(os.path.join(settings.ROOT_DIR, 'data_dump', 'StructureFeatures.csv'));
+
 # scatter_matrix(datframe)
-
-################################### SOME BASIC ANALYSES ##############################################################
-# print(datframe)
-
-##Perform data validation
-

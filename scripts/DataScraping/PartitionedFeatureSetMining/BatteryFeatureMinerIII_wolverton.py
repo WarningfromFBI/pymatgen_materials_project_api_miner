@@ -6,31 +6,31 @@ import numpy as np
 import pandas as pd
 from sympy import *
 
+import APIMining as manifest
 import settings
-from database_reader_functions import BatteryBaseReader as bbr
-from database_reader_functions import MegaBaseReader as mbf;
-from feature_miner_functions import BatteryShannonFeatures as BSF;
-
-#this is the shannon feature miner for specific pairing with the pymatgen ionvalence analyzer...Problem is that not all
-#compounds have known valences, which makes computation here problematic to say the last...
+from database_reader_functions import battery_base_reader as bbr
+from database_reader_functions import materials_project_reader as mbf;
+from feature_miner_functions import WolvertonAtomisticFeatures as waf;
 
 plt.close("all")
+
+'''
+atomistic_type features, from the seminal Wolverton Paper
+'''
 
 directory = settings.basedirectory + '\\MaterialsProject\LithiumBatteryExplorer';
 structureDir = settings.MaterialsProject+'\\StructureBase'
 
-#THIS BECOMES VERY SLOW WHEN WE USE PYMATGEN's IONIC VALENCE CALCULATOR
 
-testcounter = 0; datframerows = list(); structureMatrix = list();
-materialMatrix = list();
+testcounter = 0; datframerows = list(); atomisticMatrix = list(); weightedAtom = list()
+
 for filename in os.listdir(directory):
     testcounter+=1;
-    #if(testcounter>5): break;
+    #if(testcounter>2): break;
 
     print('file no. ' + str(testcounter))
     batterydata = bbr.readBattery(filename);
     #print(data)
-
     for i in range(len(batterydata['adj_pairs'])):
         dischargeState = batterydata['adj_pairs'][i];
 
@@ -46,30 +46,34 @@ for filename in os.listdir(directory):
             [matdata, structuredata] = mbf.readCompound(mpfile)
             [matdatalith, structuredatalith] = mbf.readCompound(mpfile2)
             structureClassUnLith = pickle.load(open(structureDir+'\\'+unlithiatedmpid+'.p', 'rb'));
-            ##================STRUCTURAL FEATURE EXTRACTION===============================#
+            ##================WolvertonATOM FEATURE EXTRACTION===============================#
 
-            [structuredata, structureLabels] = BSF.GetAllShannonFeatures(structureClassUnLith);
-            structureMatrix.append(structuredata)
-            datframerows.append(filename.strip('+.txt') + ', ' + matdata['pretty_formula'] + ', ' + matdatalith['pretty_formula']
-                                + ', ' + matdata['material_id'] + ', ' + matdatalith['material_id'])
+            [feat, atomisticLabels] = waf.getReducedSummaryStats(matdata['unit_cell_formula'])
+            [feat2, weightedlabel] = waf.getWeightedStats(matdata['unit_cell_formula']);
+            atomisticMatrix.append(feat);
+            weightedAtom.append(np.squeeze(feat2))
+            datframerows.append( filename.strip('+.txt') + ', ' + matdata['pretty_formula'] + ', ' + matdatalith['pretty_formula']
+                + ', ' + matdata['material_id'] + ', ' + matdatalith['material_id'])
 
 
         except Exception as e:
-            print(e)
-            raise #use raise when you want to explicitly track an error to its base line in the code
-            print("mpid: " + unlithiatedmpid+'\n')
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print("mpid: " + unlithiatedmpid)
             manifest.AddMPIDtoManifest(lithiatedmpid);
             manifest.AddMPIDtoManifest(unlithiatedmpid);
-            #break;
+            print(exc_type, fname, exc_tb.tb_lineno)
+            break;
 
-labels = structureLabels;
+labels = atomisticLabels + weightedlabel;
 # print(labels);
 print(len(labels))
 names = labels;
 
-structureMatrix = np.array(structureMatrix);
+atomisticMatrix = np.array(atomisticMatrix);
+weightedAtom = np.array(weightedAtom);
 
-TotalData = structureMatrix
+TotalData = np.concatenate((atomisticMatrix, weightedAtom), axis = 1);
 # Create separate csv files for the structures and for the atomistic
 
 # atomisticMatrix = np.concatenate((atomisticMatrix,np.array(v2).reshape((len(v2),4))), axis = 1)
@@ -79,11 +83,8 @@ print('data shape:' + str(TotalData.shape));
 print('length of labels: ' + str(len(labels)));
 
 datframe = pd.DataFrame(TotalData, columns=labels, index=datframerows);
-datframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\ShannonFeaturesOnly.csv');
+weightedframe = pd.DataFrame(weightedAtom, columns = weightedlabel, index = datframerows)
+datframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\ReducedAtomisticFeatures.csv');
+weightedframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\WeightedAtomisticFeatures.csv')
 # scatter_matrix(datframe)
-
-################################### SOME BASIC ANALYSES ##############################################################
-# print(datframe)
-
-##Perform data validation
 

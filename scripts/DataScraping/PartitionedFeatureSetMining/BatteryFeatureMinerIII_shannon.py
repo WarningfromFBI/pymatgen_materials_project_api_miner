@@ -6,17 +6,20 @@ import numpy as np
 import pandas as pd
 from sympy import *
 
-import APIMining as manifest
 import settings
-from database_reader_functions import BatteryBaseReader as bbr
-from database_reader_functions import MegaBaseReader as mbf;
-from feature_miner_functions import BatteryStructureFeatures as BSF;
+from database_reader_functions import battery_base_reader as bbr
+from database_reader_functions import materials_project_reader as mbf;
+from feature_miner_functions import BatteryShannonFeatures as BSF;
+
+#this is the shannon feature miner for specific pairing with the pymatgen ionvalence analyzer...Problem is that not all
+#compounds have known valences, which makes computation here problematic to say the last...
 
 plt.close("all")
 
 directory = settings.basedirectory + '\\MaterialsProject\LithiumBatteryExplorer';
 structureDir = settings.MaterialsProject+'\\StructureBase'
 
+#THIS BECOMES VERY SLOW WHEN WE USE PYMATGEN's IONIC VALENCE CALCULATOR
 
 testcounter = 0; datframerows = list(); structureMatrix = list();
 materialMatrix = list();
@@ -45,19 +48,19 @@ for filename in os.listdir(directory):
             structureClassUnLith = pickle.load(open(structureDir+'\\'+unlithiatedmpid+'.p', 'rb'));
             ##================STRUCTURAL FEATURE EXTRACTION===============================#
 
-            [structuredata, structureLabels] = BSF.GetAllStructureFeatures(structuredata, structureClassUnLith);
+            [structuredata, structureLabels] = BSF.GetAllShannonFeatures(structureClassUnLith);
             structureMatrix.append(structuredata)
             datframerows.append(filename.strip('+.txt') + ', ' + matdata['pretty_formula'] + ', ' + matdatalith['pretty_formula']
                                 + ', ' + matdata['material_id'] + ', ' + matdatalith['material_id'])
 
 
         except Exception as e:
-                print(e)
-                #raise #use raise when you want to explicitly track an error to its base line in the code
-                print("mpid: " + unlithiatedmpid+'\n')
-                manifest.AddMPIDtoManifest(lithiatedmpid);
-                manifest.AddMPIDtoManifest(unlithiatedmpid);
-                #break;
+            print(e)
+            raise #use raise when you want to explicitly track an error to its base line in the code
+            print("mpid: " + unlithiatedmpid+'\n')
+            manifest.AddMPIDtoManifest(lithiatedmpid);
+            manifest.AddMPIDtoManifest(unlithiatedmpid);
+            #break;
 
 labels = structureLabels;
 # print(labels);
@@ -76,7 +79,7 @@ print('data shape:' + str(TotalData.shape));
 print('length of labels: ' + str(len(labels)));
 
 datframe = pd.DataFrame(TotalData, columns=labels, index=datframerows);
-datframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\StructureFeatures.csv');
+datframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\ShannonFeaturesOnly.csv');
 # scatter_matrix(datframe)
 
 ################################### SOME BASIC ANALYSES ##############################################################

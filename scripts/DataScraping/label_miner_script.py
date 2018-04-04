@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 import label_miner_functions.VolumeExpansionVariablePyMagten as VEVP
-import database_reader_functions.MegaBaseReader as mbf
+import database_reader_functions.materials_project_reader as mbf
 import label_miner_functions.BatteryAnisotropyFeature as anfeat
 import settings
 from label_miner_functions import BatteryVolumeEnergyFeature as bve
@@ -23,22 +23,41 @@ output should be csv file of the labels that we need for the ML model
 
 plt.close("all")
 structureclasses = os.path.join(settings.basedirectory,'structure_database')
-batteries = os.path.join(settings.basedirectory+ 'Battery_Explorer'); ## note you might have to change this last name
+batteries = os.path.join(settings.basedirectory, 'Battery_Explorer'); ## note you might have to change this last name
 testcounter = 0;
 
 volumesNormStoich = list(); rownames= list();
 volumesNormEnergy = list();
+
+
+battery_labels = pd.DataFrame();
+## battery data lists
+battery_data = list();
+indices = list();
 for filename in os.listdir(batteries): # LIST ALL THE FILES IN THE BATTERY EXPLORER
     testcounter += 1;
     file = open(batteries + "\\" + filename, 'r')
     data = "";
-    for line in file:
+    for line in file: # there appears to be some data-repetition which wasn't dealt with in the original miner... not a huge problem though
+        # print('here')
+        # print(line)
         data = json.loads(line);
     print(data)
     maxVol = 0;
 
     ## for each battery element, we need to iterate through all the battery stages, each one is a separate compound pair
-
+    #mine out the battery labels
+    for i in range(len(data['adj_pairs'])):
+        voltage_pair = data['adj_pairs'][i];
+        avg_voltage = voltage_pair['average_voltage'];
+        capacity = voltage_pair['capacity_vol']
+        energy_density = voltage_pair['energy_vol']
+        unlith = voltage_pair['formula_charge'];
+        lith = voltage_pair['formula_discharge'];
+        unlith_mpid = voltage_pair['id_charge'];
+        lith_mpid = voltage_pair['id_discharge'];
+        battery_data.append([avg_voltage, capacity, energy_density])
+        indices.append(unlith+', '+unlith_mpid+', '+lith+', '+lith_mpid);
     ## ================================================================================================================
 
     for i in range(len(data['adj_pairs'])):
@@ -84,17 +103,20 @@ for filename in os.listdir(batteries): # LIST ALL THE FILES IN THE BATTERY EXPLO
         #     print(exc_type, fname, exc_tb.tb_lineno)
 
 
-print(labels); volumesNormStoich = np.array(volumesNormStoich)
-print(volumesNormStoich.shape)
-plt.plot(volumesNormStoich)
-print(len(labels))
-names = labels;
+# print(labels); volumesNormStoich = np.array(volumesNormStoich)
+# print(volumesNormStoich.shape)
+# plt.plot(volumesNormStoich)
+# print(len(labels))
+# names = labels;
+
+battery_labels = pd.DataFrame(battery_data, index = indices, columns = ['avg_voltage', 'capacity_vol', 'energy_vol']);
+battery_labels.to_csv('battery_labels.csv')
 
 ##---WRITE LABELS TO A CSV FILE
-volumeLabels = pd.DataFrame(volumesNormStoich, columns = labels, index = rownames);
-volumeLabels.to_csv(settings.DynamicFeatureSets+'\\VolumeLabels\\volumeLabels.csv');
-
-#Now perform the validation
+# volumeLabels = pd.DataFrame(volumesNormStoich, columns = labels, index = rownames);
+# volumeLabels.to_csv(settings.DynamicFeatureSets+'\\VolumeLabels\\volumeLabels.csv');
+#
+# #Now perform the validation
 
 #importing this script runs it
 #import scripts.DataScraping.FeatureLabelMining.ResponsePredictorValidation
