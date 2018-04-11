@@ -3,6 +3,9 @@ import numpy as np
 from sympy import *
 import math
 import settings
+'''
+basic features which are common to all compounds, no calculations required so super fast
+'''
 
 ## Every function here should return a label telling us exactly what it is
 def sphereVol(r):

@@ -10,7 +10,7 @@ from database_reader_functions.AddMPIDToManifest import *
 import settings
 from database_reader_functions import battery_base_reader as bbr
 from database_reader_functions import materials_project_reader as mbf;
-from feature_miner_functions import BatteryStructureFeatures as BSF;
+from feature_miner_functions import StructureFeatures as BSF;
 
 plt.close("all")
 

@@ -9,15 +9,15 @@ from sympy import *
 import settings
 from database_reader_functions import battery_base_reader as bbr
 from database_reader_functions import materials_project_reader as mbf;
-from feature_miner_functions import BatteryShannonFeatures as BSF;
+from feature_miner_functions import ShannonFeatures as BSF;
 
 #this is the shannon feature miner for specific pairing with the pymatgen ionvalence analyzer...Problem is that not all
 #compounds have known valences, which makes computation here problematic to say the last...
 
 plt.close("all")
 
-directory = settings.basedirectory + '\\MaterialsProject\LithiumBatteryExplorer';
-structureDir = settings.MaterialsProject+'\\StructureBase'
+directory = os.path.join(settings.basedirectory, 'Battery_Explorer');
+structureDir = os.path.join(settings.basedirectory, 'structure_database');
 
 #THIS BECOMES VERY SLOW WHEN WE USE PYMATGEN's IONIC VALENCE CALCULATOR
 
@@ -45,10 +45,10 @@ for filename in os.listdir(directory):
         try:
             [matdata, structuredata] = mbf.readCompound(mpfile)
             [matdatalith, structuredatalith] = mbf.readCompound(mpfile2)
-            structureClassUnLith = pickle.load(open(structureDir+'\\'+unlithiatedmpid+'.p', 'rb'));
+            unlith_structure = pickle.load(open(structureDir + '\\' + unlithiatedmpid + '.p', 'rb'));
             ##================STRUCTURAL FEATURE EXTRACTION===============================#
 
-            [structuredata, structureLabels] = BSF.GetAllShannonFeatures(structureClassUnLith);
+            [structuredata, structureLabels] = BSF.GetAllShannonFeatures(unlith_structure);
             structureMatrix.append(structuredata)
             datframerows.append(filename.strip('+.txt') + ', ' + matdata['pretty_formula'] + ', ' + matdatalith['pretty_formula']
                                 + ', ' + matdata['material_id'] + ', ' + matdatalith['material_id'])

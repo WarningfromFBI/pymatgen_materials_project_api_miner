@@ -119,6 +119,6 @@ battery_labels.to_csv('battery_labels.csv')
 # #Now perform the validation
 
 #importing this script runs it
-#import scripts.DataScraping.FeatureLabelMining.ResponsePredictorValidation
+#import scripts.TrainScraping.FeatureLabelMining.ResponsePredictorValidation
 
 

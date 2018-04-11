@@ -9,11 +9,11 @@ the primary output are a csv file of the features and a csv files of the labels 
 note that to use these scripts, you must have an account on Materials Project (free) so you can generate your own MAPI key
 (if you find my MAPI key on my scripts, please let me know.
 
-## requirements
-pymatgen 2.0 -- structure miner is completely dependent on this module
+## Dependencies
+1. pymatgen 2018.3.23
 
 ## folder structure
-
+add a directory tree diagram here
 
 ## mining the api extracted data
 In general, using the api to query the data over an internet connection is slow, so we want to mine everything 
@@ -24,13 +24,19 @@ for battery machine learning, which is a separate repository you can check to se
 ## database_reader_functions
 compilation of functions designed to read data from the databases mined by the api-miners
 materials_project_reader:  reads .json formatted text files  
-NOTE that a structure base reader isn't included. Since the contents of the structure base are just pickled python objects   
-simple object, pickle.loads(file) is sufficient
+Since the contents of the structure base are just pickled python objects,  structure_base_reader is just  pickle.loads(file) 
 
 ## csv_processed_datasets
-csv is important because ONLY csv files  
-we include a folder called data-dump where I usually put in all the .csv files which are successfully mined from the data-miner
-these files should be transferred to the battery machine learning repo for further analysis. we want to keep things as compartmentalized as possible
+csv is important because ONLY csv files are allowed
+three files in fact are stored here
+- training/test labels
+- training/test features
+- deployment features (sometimes called prediction set)
+these files should be transferred to the battery machine learning repo for further analysis.
+This is the FINAL PRODUCT OF THE PYMATGEN API MINER
+
+## data dump
+we include a folder called data-dump where all raw .csv files which are successfully mined from the data-miner
 
 ## FeatureLabelMining
 Idea to have separate scripts for different features is simple. First, we can classify different features

@@ -10,39 +10,39 @@ import database_reader_functions.structure_reader as sbr;
 import settings
 from database_reader_functions import battery_base_reader as bbr
 from database_reader_functions import materials_project_reader as mbf;
-from feature_miner_functions import BatterySymmetryFeatures as BsymF
-
+from feature_miner_functions import SymmetryFeatures as BsymF
+import sys
 '''
 SLOWEST FEATURES TO MINE
 '''
 
 plt.close("all")
 
-directory = settings.basedirectory + '\\MaterialsProject\LithiumBatteryExplorer';
-structureDir = settings.MaterialsProject+'\\StructureBase'
-
+directory = os.path.join(settings.ROOT_DIR,'Battery_Explorer');
+structureDir = os.path.join(settings.ROOT_DIR, 'structure_database');
 
 testcounter = 0; datframerows = list(); symmetryMatrix = list();
 
 for filename in os.listdir(directory):
     testcounter+=1;
-    #if(testcounter>2): break;
-    print('file no. ' + str(testcounter))
-    batterydata = bbr.readBattery(filename);
-    #print(data)
+    try:
+        #if(testcounter>2): break;
+        print('file no. ' + str(testcounter))
+        batterydata = bbr.readBattery(filename);
+        #print(data)
 
-    for i in range(len(batterydata['adj_pairs'])):
-        dischargeState = batterydata['adj_pairs'][i];
+        for i in range(len(batterydata['adj_pairs'])):
+            dischargeState = batterydata['adj_pairs'][i];
 
-        if(batterydata['adj_pairs'][i]['max_delta_volume'] == 0):
-            print(batterydata['battid']);
-            continue;
+            if(batterydata['adj_pairs'][i]['max_delta_volume'] == 0):
+                print(batterydata['battid']);
+                continue;
 
-        unlithiatedmpid = batterydata['adj_pairs'][i]['id_charge'];
-        lithiatedmpid = batterydata['adj_pairs'][i]['id_discharge']
-        mpfile = unlithiatedmpid+'.txt'; mpfile2 = lithiatedmpid+'.txt';
+            unlithiatedmpid = batterydata['adj_pairs'][i]['id_charge'];
+            lithiatedmpid = batterydata['adj_pairs'][i]['id_discharge']
+            mpfile = unlithiatedmpid+'.txt'; mpfile2 = lithiatedmpid+'.txt';
 
-        try:
+            #try:
             [matdata, structuredata] = mbf.readCompound(mpfile)
             [matdatalith, structuredatalith] = mbf.readCompound(mpfile2)
             structureClassUnLith = sbr.readStructure(unlithiatedmpid);
@@ -54,15 +54,17 @@ for filename in os.listdir(directory):
             datframerows.append(filename.strip('+.txt') + ', ' + matdata['pretty_formula'] + ', ' + matdatalith['pretty_formula']
                                 + ', ' + matdata['material_id'] + ', ' + matdatalith['material_id'])
 
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            #raise
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print("mpid: " + unlithiatedmpid)
-            AddMPIDtoManifest(lithiatedmpid);
-            AddMPIDtoManifest(unlithiatedmpid);
-            print(exc_type, fname, exc_tb.tb_lineno)
-            break;
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        #raise
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print("mpid: " + unlithiatedmpid)
+        AddMPIDtoManifest(lithiatedmpid);
+        AddMPIDtoManifest(unlithiatedmpid);
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+
+
 
 labels = symmetryLabels;
 # print(labels);

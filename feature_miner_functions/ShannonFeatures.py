@@ -93,7 +93,7 @@ def ShannonRatio(picklestruct):
     picklestruct = valence.structure;
     for site in picklestruct:
         oxi_state = np.mean(site.specie.common_oxidation_states);
-        rad = site.specie.average_ionic_radius; 
+        rad = site.specie.average_ionic_radius;
         ratio = oxi_state/rad;
         rads.append(ratio)
     return [np.mean(rads), np.std(rads)]
