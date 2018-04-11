@@ -1,7 +1,9 @@
 import settings
 import json
 import numpy as np
-
+'''
+what is this?
+'''
 # This, on the face of it, only makes sense if we comparing compounds with the same crystal system
 def getStructuralWeightFeatures(picklestruct):
     s2 = settings.WolvertonDatabase

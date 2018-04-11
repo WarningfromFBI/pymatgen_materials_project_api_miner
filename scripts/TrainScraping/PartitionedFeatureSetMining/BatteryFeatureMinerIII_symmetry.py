@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from sympy import *
 
-import APIMining as manifest
+from database_reader_functions.AddMPIDToManifest import *
 import database_reader_functions.structure_reader as sbr;
 import settings
 from database_reader_functions import battery_base_reader as bbr
@@ -59,8 +59,8 @@ for filename in os.listdir(directory):
             #raise
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print("mpid: " + unlithiatedmpid)
-            manifest.AddMPIDtoManifest(lithiatedmpid);
-            manifest.AddMPIDtoManifest(unlithiatedmpid);
+            AddMPIDtoManifest(lithiatedmpid);
+            AddMPIDtoManifest(unlithiatedmpid);
             print(exc_type, fname, exc_tb.tb_lineno)
             break;
 
@@ -81,11 +81,5 @@ print('data shape:' + str(TotalData.shape));
 print('length of labels: ' + str(len(labels)));
 
 datframe = pd.DataFrame(TotalData, columns=labels, index=datframerows);
-datframe.to_csv(settings.DynamicFeatureSets + '\\FeatureSets\SymmetryFeatures.csv');
-# scatter_matrix(datframe)
-
-################################### SOME BASIC ANALYSES ##############################################################
-# print(datframe)
-
-##Perform data validation
+datframe.to_csv(os.path.join(settings.ROOT_DIR, 'data_dump', 'SymmetryFeatures.csv'));
 

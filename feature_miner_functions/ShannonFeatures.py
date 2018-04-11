@@ -9,13 +9,13 @@ import copy
 import pymatgen.analysis.bond_valence as pabv;
 import pymatgen.symmetry.analyzer as psa
 import pymatgen.analysis.defects.point_defects as pdf
-
+import os
 ## THIS IS STILL UNDER DEVELOPMENT AS THERE ARE AMBIGUITIES ABOUT OXIDATION NUMBER FOR
 ## CERTAIN COMPOUNDS
 
-structureDir = settings.MaterialsProject+'\\StructureBase'
-ShannonBase = settings.MaterialsProject+'\\ShannonRadii'
-ShannonData = json.load(open(ShannonBase+'\\ShannonRadiiDictionary.json', 'r'));
+structureDir = os.path.join(settings.ROOT_DIR, 'structure_database');
+ShannonBase = os.path.join(settings.ROOT_DIR, 'Shannon_Radii');
+ShannonData = json.load(open(os.path.join(ShannonBase,'ShannonRadiiDictionary.json'), 'r'));
 
 #Li always has a +1 oxidation state in an atom, which means upon lithiation, materials should reduce
 #their oxidation state... get a sense of how willing the constituents are to decrease their oxidation state
@@ -91,10 +91,9 @@ def ShannonRatio(picklestruct):
     rads = list();
     valence = pdf.ValenceIonicRadiusEvaluator(picklestruct); #this automatically attempts to assign valences
     picklestruct = valence.structure;
-    oxidationNumbers = valence.get_valences();
     for site in picklestruct:
-        oxi_state = site.specie._oxi_state;
-        rad = site.specie.ionic_radius;
+        oxi_state = np.mean(site.specie.common_oxidation_states);
+        rad = site.specie.average_ionic_radius; 
         ratio = oxi_state/rad;
         rads.append(ratio)
     return [np.mean(rads), np.std(rads)]
@@ -132,13 +131,15 @@ def deltaShannonCrystalRadii(pickleStruct):
 
 def CellOxidationStateDensity(pickleStruct): #normalize against the total number of elements...
     numElements = len(pickleStruct.sites); initialVol = pickleStruct.volume;
-    negativeOxPop = 0;
+    negativeOxPop = 0; positiveOxPop = 0;
     valence = pdf.ValenceIonicRadiusEvaluator(pickleStruct); #this automatically attempts to assign valences
     for site in valence.structure.sites:
-        oxistate = site.specie._oxi_state  # this is the charge
+        oxistate = site.specie.min_oxidation_state  # this is the charge
         if(oxistate < 0):
             negativeOxPop+=1;
-    return negativeOxPop/initialVol; #the stoich fraction is 100% correlated to the positiveox fraction.
+        if(site.specie.max_oxidation_state > 0):
+            positiveOxPop+=1;
+    return [positiveOxPop/initialVol, negativeOxPop/initialVol]; #the stoich fraction is 100% correlated to the positiveox fraction.
 
 ##=================FUNCTION TO APPLY ALL THESE FUNCTIONS AT ONCE ==============================#
 
@@ -147,14 +148,14 @@ def GetAllShannonFeatures(picklestruct):
 
     [a1, b1, c1, d1] = oxidationStateFlexibility(picklestruct);
     a2 = VolumeByShannonRadii(picklestruct);
-    [a3, b3] = CellOxidationStateDensity(picklestruct)
+    [a3,b3] = CellOxidationStateDensity(picklestruct)
     a4 = VolumeByAvgIonicRadius(picklestruct)
     a5 = oxidationStateVolumeFlexibility(picklestruct)
     a6 = ShannonRatio(picklestruct);
     a7 = VolumeFlexibilityByShannonRadii(picklestruct)
 
     data = [a1, b1, c1, d1, a2, a3, b3, a4, a5, a6, a7];
-    labels = ['oxflexibility1', 'oxflex2', 'oxflex3', 'oxflex4', 'shannondeltavol', 'positiveox1', 'positiveox2',
+    labels = ['oxflexy1', 'oxflex2', 'oxflex3', 'oxflex4', 'shannondeltavol', 'positiveox1', 'positiveox2',
               'avgionicrad', 'volume flex', 'ShannonRat2', 'vflexshanrad2'];
     return [data, labels]
 

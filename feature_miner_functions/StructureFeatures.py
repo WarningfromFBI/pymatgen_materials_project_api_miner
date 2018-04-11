@@ -352,10 +352,10 @@ def GetAllStructureFeatures(structure, picklestruct):
     a27 = ElectronegativitySolid(picklestruct)
     a28 = ChargeMomentOfInertia(picklestruct);
     a29 = MassMomentOfInertia(picklestruct);
-    a30 = AvgNumberNN(picklestruct)
+    [a30, a31] = AvgNumberNN(picklestruct)
     adata = [a1, a2, a3, a4, a5, a6, a7, a8, a9,a11, a12, a13, a14, a15, a16, a17, a18, a20, a21, a22, a23, a26]; #a24];
     bdata = [b2, b5, b8, b20, c20, d20, b19, b11, c8, d8, c5, d5, a25, b25, c25, d25, b3]
-    cdata = [a27, a28, a29, c11, a30];
+    cdata = [a27, a28, a29, c11, a30, a31];
 
     labelsa = ['Forces', 'avgCentralDistance', 'Coordination', 'numberDensity', 'initialAnisotropy',
               'li-ion fittability', 'maxForce', 'oxidation flexibility', 'ShannonRadii',
@@ -369,7 +369,7 @@ def GetAllStructureFeatures(structure, picklestruct):
                'deltacrystal2','deltacrystal3','deltacrystal4', 'coordination std']
 
     labelsc = ['solid electronegativity', 'charge moment of inertia', 'mass moment of inertia', 'negativeoxdensity',
-               'averageNumNN'];
+               'averageNumNN', 'stdNumNN'];
 
     labels = labelsa + labelsb + labelsc
     data = adata + bdata + cdata;

@@ -12,10 +12,21 @@ import time
 import pymatgen.analysis.structure_analyzer as pasa
 import json
 import pymatgen.analysis.energy_models as paem
-ShannonBase = settings.MaterialsProject+'\\ShannonRadii'
-ShannonData = json.load(open(ShannonBase+'\\ShannonRadiiDictionary.json', 'r'));
-elementalValenceData = pabv.all_data;
+import os
+ShannonBase = os.path.join(settings.ROOT_DIR,'Shannon_Radii')
+ShannonData = json.load(open(os.path.join(ShannonBase,'ShannonRadiiDictionary.json'), 'r'));
+elemental_valence_data = pabv.all_data;
 #elementalValenceData contains two pieces of information, a bvsum and a 'occurence'
+bond_valences = elemental_valence_data['bvsum']; #process the bond valences to get averages for each element
+average_bond_valences = dict();
+for key in bond_valences:
+    if(key[0:2] not in average_bond_valences.keys()):
+        average_bond_valences[key[0:2]] = list();
+    average_bond_valences[key[0:2]].append([bond_valences[key]['mean'], bond_valences[key]['std'], \
+                                            elemental_valence_data['occurrence'][key]])
+for key in average_bond_valences:
+    data = np.array(average_bond_valences[key]);
+    average_bond_valences[key] = np.mean(data, axis = 0)
 
 def getCrystalSystem(picklestruct):
     symmetry = psa.SpacegroupAnalyzer(picklestruct);
@@ -82,23 +93,28 @@ def bondValenceData(picklestruct):
         bvmean = list(); bvstd = list(); occurrences = list();
         for site in oxistateStructure:
             key = site.species_string;
-            bvdata = elementalValenceData['bvsum'][key]
-            occurrencedata = elementalValenceData['occurrence'][key]
+            bvdata = elemental_valence_data['bvsum'][key]
+            occurrencedata = elemental_valence_data['occurrence'][key]
             bvmean.append(bvdata['mean'])
             bvstd.append(bvdata['std']); occurrences.append(occurrencedata);
         return [np.mean(bvmean), np.mean(bvstd), np.mean(occurrences)]
+    #value error is thrown whenever valences cannot be assigned to the compound
     except ValueError as e: #this is not good as compounds such as Li17Nb20O60 get zero valence but really aren't
                             #zero valence compounds
+        # in such a case, what we will do is to calculate a heuristic elemental valence
         bvmean = list();
         bvstd = list();
         occurrences = list();
         for site in picklestruct:
-            key = site.species_string+'0+';
-            bvdata = elementalValenceData['bvsum'][key]
-            occurrencedata = elementalValenceData['occurrence'][key]
-            bvmean.append(bvdata['mean'])
-            bvstd.append(bvdata['std']);
-            occurrences.append(occurrencedata);
+            key = site.species_string;
+            if(key not in average_bond_valences.keys()):
+                continue;
+            else:
+                bvdata = average_bond_valences[key][0:2]
+                occurrencedata = average_bond_valences[key][2]
+                bvmean.append(bvdata[0])
+                bvstd.append(bvdata[1]);
+                occurrences.append(occurrencedata);
         return [np.mean(bvmean), np.mean(bvstd), np.mean(occurrences)]
 
 def bondValenceProbabilities(picklestruct):
@@ -129,20 +145,21 @@ def Hall_Number(picklestruct): #return hall_number, which is just another way of
     symmetryDat = psa.SpacegroupAnalyzer(picklestruct);
     return symmetryDat.get_symmetry_dataset()['hall_number'];
 
-def StrainLattice(picklestruct): #Might be able to produce a first order estimate of poisson's ratio from here
-    initialvol = picklestruct.volume;
-    initiallattice = np.array(picklestruct.lattice.abc);
-    strainedLatt = paes.DeformedStructureSet(picklestruct, nd = 0.1, ns = 0.1)
-    strainedDict = strainedLatt.as_strain_dict();
-    volumeChanges = list();
-    for deformation in strainedDict:
-        newVol = (strainedDict[deformation].volume) #we should normalize this against the 'magnitude' of the strain
-        newlattice = np.array(strainedDict[deformation].lattice.abc);
-        volDiff = newVol-initialvol;
-        latticeDiff = newlattice-initiallattice;
-        volumeChanges.append(volDiff/(np.dot((latticeDiff), (latticeDiff)))**0.5)
-    #now quantify how flexible the lattice is given the stain dict...
-    return [np.mean(volumeChanges), np.std(volumeChanges)]
+# def StrainLattice(picklestruct): #Might be able to produce a first order estimate of poisson's ratio from here
+#     initialvol = picklestruct.volume;
+#     initiallattice = np.array(picklestruct.lattice.abc);
+#     strainedLatt = paes.DeformedStructureSet(picklestruct, norm_strains= [0.1, 0.1, 0.1] \
+#                                              , shear_strains = [0.1, 0.1, 0.1])
+#     strainedDict = strainedLatt.deformations;
+#     volumeChanges = list();
+#     for deformation in strainedDict:
+#         newVol = (deformation.volume) #we should normalize this against the 'magnitude' of the strain
+#         newlattice = np.array(deformation.lattice.abc);
+#         volDiff = newVol-initialvol;
+#         latticeDiff = newlattice-initiallattice;
+#         volumeChanges.append(volDiff/(np.dot((latticeDiff), (latticeDiff)))**0.5)
+#     #now quantify how flexible the lattice is given the stain dict...
+#     return [np.mean(volumeChanges), np.std(volumeChanges)]
 
 def ionicityOfLattice(picklestruct):
     #AS a general rule, ionic bonds are stronger than covalent bonds
@@ -178,7 +195,7 @@ def getBravaisLattice(picklestruct): #there are fourteen bravais lattices, so to
     return None;
 
 def bondOrderParameters(picklestruct):#this is super slow, #other order parameters, cn = coordination number
-    labels = ["bcc", "oct", "q4","q6","q2","cn", "tet", "lin", "bent", "reg_tri","sq","sq_pyr"]
+    labels = ["bcc", "oct", "q4","q6","q2","cn", "tet", "bent", "reg_tri","sq","sq_pyr"]
     structureBonds = pasa.OrderParameters(labels);
     Data = list();
     for i in range(len(picklestruct.sites)):
@@ -236,7 +253,7 @@ def GetAllSymmetries(picklestruct):
     [a4, a5, a6] = bondValenceData(picklestruct);
     [a10] = VegardCoefficientsApprox(picklestruct);
     a11 = Hall_Number(picklestruct)
-    [a12, a13] = StrainLattice(picklestruct)
+    #[a12, a13] = StrainLattice(picklestruct)
     [a14, a15] = ionicityOfLattice(picklestruct) #putting picklestruct here changes picklestruct
     t0 = time.time();
     [a16, b16, c16, d16] = avgDistanceOfNearestNeighbors(picklestruct)
@@ -246,10 +263,10 @@ def GetAllSymmetries(picklestruct):
     t1 = time.time();
     print(t1 - t0);
 
-    adata = [a1, a2, a3, a4, a5, a6, a10, a11, a12, a13, a14, a15, a16, b16, c16, d16] + bondParams;
+    adata = [a1, a2, a3, a4, a5, a6, a10, a11,  a14, a15, a16, b16, c16, d16] + bondParams;
     labelsa = ['Crystal System', 'symmetry ops', 'ShannonForce', 'meanbv', 'stdbv', 'meanValenceOcc',
-              'VegardVolume', 'Hall Number', 'strainlatticemean', 'strainlatticestd', 'ioniccount', 'ionicitymean', 'NNdist',
-              'NNdiststd', 'nndistmax', 'nndistmin'] + ["bcc", "oct", "q4","q6","q2","cn", "tet", "lin", "bent", "reg_tri","sq","sq_pyr"];
+              'VegardVolume', 'Hall Number', 'ioniccount', 'ionicitymean', 'NNdist',
+              'NNdiststd', 'nndistmax', 'nndistmin'] + ["bcc", "oct", "q4","q6","q2","cn", "tet", "bent", "reg_tri","sq","sq_pyr"];
     bdata = [a18];
 
     labelsb = ['EwaldApprox'];
