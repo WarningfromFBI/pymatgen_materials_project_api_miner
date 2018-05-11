@@ -44,7 +44,10 @@ def numberDensity(structure): #number density of the entire lattice of the unlit
     return len(structure['sites'])/volume;
 
 def avgDistancefromCoM(picklestruct):
-    #lattice is the datastructure from
+    '''
+    :param picklestruct:
+    :return: average distance of sites in structure from the COM
+    '''
     RCM = CenterofMass(picklestruct)
     totalR = list();
     for i in range(len(picklestruct.sites)):
@@ -245,17 +248,21 @@ def CellOxidationStateDensity(pickleStruct): #normalize against the total number
 def SpaceGroup(picklestruct): #numbers ranging from 1 to 230, would be nice to find a way to weight these
     return picklestruct.get_space_group_info()[1];
 
-def detLatticeVectors(picklestruct): #not a physically meaningful feature, convert to some other property of the lattice vector
-    latticeVec = picklestruct.lattice.matrix;
-    determinant = np.linalg.det(latticeVec);
-    return determinant;
+# def detLatticeVectors(picklestruct): #not a physically meaningful feature, convert to some other property of the lattice vector
+#     latticeVec = picklestruct.lattice.matrix;
+#     determinant = np.linalg.det(latticeVec);
+#     return determinant;
 
 def CenterofMass(picklestruct):
+    '''
+    centerofmass in terms of fractional coordinates
+    :param picklestruct:
+    :return:
+    '''
     symmetryfinder = psa.SpacegroupAnalyzer(picklestruct)
     numerator = np.array([0.0, 0.0, 0.0])
     denominator = list();
     for sites in picklestruct.sites:
-        elem = sites.specie.name;
         mass = sites.specie.data['Atomic mass']
         cellPosition = sites.frac_coords; #normalized
         numerator += cellPosition*mass
@@ -312,7 +319,8 @@ def MassMomentOfInertia(picklestruct):
         I += Mass*np.dot(dist,dist);
     return I;
 
-def AvgNumberNN(picklestruct): #can use voronoi connectivity as well
+def AvgNumberNN(picklestruct):
+    ''' calculates cumulative statistics regarding number of nearest neighbors'''
     NNCount = list()
     for site in picklestruct:
         neighbors = picklestruct.get_neighbors(site, 4);

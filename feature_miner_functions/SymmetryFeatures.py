@@ -242,8 +242,7 @@ def IsingEnergetics(picklestruct):
     Ising = paem.IsingModel(J, radius);
     return Ising.get_energy(picklestruct);
 
-def Voronoi(picklestruct):
-    return None;
+
 
 def GetAllSymmetries(picklestruct):
     print(picklestruct.composition)
@@ -251,14 +250,14 @@ def GetAllSymmetries(picklestruct):
     a2 = getCellSymmetryOps(picklestruct);
     a3 = getShannonChargeStrength(picklestruct);
     [a4, a5, a6] = bondValenceData(picklestruct);
-    [a10] = VegardCoefficientsApprox(picklestruct);
+    a10 = VegardCoefficientsApprox(picklestruct);
     a11 = Hall_Number(picklestruct)
     #[a12, a13] = StrainLattice(picklestruct)
     [a14, a15] = ionicityOfLattice(picklestruct) #putting picklestruct here changes picklestruct
     t0 = time.time();
     [a16, b16, c16, d16] = avgDistanceOfNearestNeighbors(picklestruct)
     #[a17, b17] = bondValenceProbabilities(picklestruct);
-    a18 = EwaldEnergetics(picklestruct)
+    #a18 = EwaldEnergetics(picklestruct)
     bondParams = bondOrderParameters(picklestruct)
     t1 = time.time();
     print(t1 - t0);
@@ -267,12 +266,11 @@ def GetAllSymmetries(picklestruct):
     labelsa = ['Crystal System', 'symmetry ops', 'ShannonForce', 'meanbv', 'stdbv', 'meanValenceOcc',
               'VegardVolume', 'Hall Number', 'ioniccount', 'ionicitymean', 'NNdist',
               'NNdiststd', 'nndistmax', 'nndistmin'] + ["bcc", "oct", "q4","q6","q2","cn", "tet", "bent", "reg_tri","sq","sq_pyr"];
-    bdata = [a18];
 
-    labelsb = ['EwaldApprox'];
+    #labelsb = ['EwaldApprox'];
 
-    labels = labelsa+labelsb;
-    data = adata+bdata
+    labels = labelsa;
+    data = adata
 
     return [data, labels]
 

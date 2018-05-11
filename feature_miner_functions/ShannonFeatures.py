@@ -141,8 +141,8 @@ def CellOxidationStateDensity(pickleStruct): #normalize against the total number
             positiveOxPop+=1;
     return [positiveOxPop/initialVol, negativeOxPop/initialVol]; #the stoich fraction is 100% correlated to the positiveox fraction.
 
-##=================FUNCTION TO APPLY ALL THESE FUNCTIONS AT ONCE ==============================#
 
+##=================FUNCTION TO APPLY ALL THESE FUNCTIONS AT ONCE ==============================#
 
 def GetAllShannonFeatures(picklestruct):
 
@@ -156,7 +156,7 @@ def GetAllShannonFeatures(picklestruct):
 
     data = [a1, b1, c1, d1, a2, a3, b3, a4, a5, a6, a7];
     labels = ['oxflexy1', 'oxflex2', 'oxflex3', 'oxflex4', 'shannondeltavol', 'positiveox1', 'positiveox2',
-              'avgionicrad', 'volume flex', 'ShannonRat2', 'vflexshanrad2'];
+              'avgionicrad', 'volume flex', 'ShannonRad2', 'vflexshanrad2'];
     return [data, labels]
 
 

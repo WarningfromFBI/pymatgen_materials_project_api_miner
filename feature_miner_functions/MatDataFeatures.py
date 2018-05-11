@@ -97,14 +97,22 @@ def VegardCoefficients(unit_cell_formula):
     #calculate projected unit cell parameter
     return None;
 
-
+def spacegroup(matdata):
+    hall = matdata['spacegroup']['hall']
+    cs = matdata['spacegroup']['crystal_system']
+    number = matdata['spacegroup']['number']
+    point_group = matdata['spacegroup']['point_group']
+    return [cs, number, point_group, hall];
 ## GENERAL FUNCTIONS TO GET ALL LABELS FOR THESE PROPERIES
 
 def getAllFeatures(matdata):
     unit_cell_formula = matdata['unit_cell_formula']
     a2 = ElementNorm(unit_cell_formula);
     a3 = atomicNumber(unit_cell_formula);
-    return [a2, a3]
+    sg = spacegroup(matdata);
+    labels = [];
+
+    return [a2, a3] + matdata
 
 
 

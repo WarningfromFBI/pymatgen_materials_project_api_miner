@@ -1,11 +1,12 @@
 import json;
 import numpy as np;
 import settings
+import os
+s2 = os.path.join(settings.ROOT_DIR, 'atom_datasets')
+f = open(os.path.join(s2, 'elemental_features.json'), 'r');
+data = json.load(f);
 
 def getAllSummaryStats(unit_cell_formula):
-    s2 = settings.WolvertonDatabase
-    f = open(s2 + '\\' + 'elemental_features.json', 'r');
-    data = json.load(f);
     statTypeLabel = ['unwmean', 'unwstd', 'min', 'max', 'range'];
     totalLabel = list();
     totalunweight = list();
@@ -42,9 +43,6 @@ def getAllSummaryStats(unit_cell_formula):
     return [finalAns, totalLabel]; #this final answer should be of length 5*56 = 280
 
 def getReducedSummaryStats(unit_cell_formula):
-    s2 = settings.WolvertonDatabase
-    f = open(s2 + '\\' + 'elemental_features.json', 'r');
-    data = json.load(f);
     statTypeLabel = ['unwmean', 'unwstd'];
     totalLabel = list();
     totalunweight = list();
@@ -78,11 +76,8 @@ def getReducedSummaryStats(unit_cell_formula):
     return [finalAns, totalLabel]; #this final answer should be of length 5*56 = 280
 
 
-
 def getWeightedStats(unit_cell_formula):
-    s2 = settings.WolvertonDatabase;
-    f = open(s2 + '\\' + 'elemental_features.json', 'r');
-    data = json.load(f);
+    global data
     statTypeLabel = ['wmean', 'wstd'];
     totalLabel = list();
     totalweight = dict();

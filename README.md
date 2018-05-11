@@ -42,7 +42,6 @@ we include a folder called data-dump where all raw .csv files which are successf
 Idea to have separate scripts for different features is simple. First, we can classify different features
 Second, different types of features may be more or less expensive to compute
 
-
 # scripts
 contains two folders, one which focuses on the Materials Project, one which focuses on the Battery Explorer
 
@@ -56,3 +55,7 @@ two core scripts
 
 ## Data Scraping
 performs all feature construction 
+
+##final_processing
+concatenates all the mp data and the train data into the final csv files that we can transport to the 
+machine learning module
