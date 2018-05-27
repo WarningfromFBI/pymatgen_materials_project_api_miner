@@ -8,7 +8,7 @@ import os
 import pandas as pd
 import settings
 import numpy as np
-
+le = preprocessing.LabelEncoder()
 directory = os.path.join(settings.ROOT_DIR,'data_dump');
 
 file = os.path.join(directory, 'materials_project.csv');
@@ -17,13 +17,21 @@ data.dropna(axis = 0, inplace = True)
 #drop NaNs by row
 print(data.shape)
 for col in data.columns:
+    ohe = OneHotEncoder();
     if(data[col].dtype == 'object'):
-        le = preprocessing.LabelEncoder()
-        a = le.fit_transform(data[col]);
-        print(len(set(a)));
         print(col)
-        data[col] = a;
+        print(data[col])
+    if(col == 'crystal_system'): # check what
+        column = data['crystal_system'];
+        revised = le.fit_transform(column.values);
+        print(le.classes_)
+        revised = np.expand_dims(revised, axis = 1);
+        ohe_values = ohe.fit_transform(revised)
+        print(ohe_values.shape)
 
+        ohe_frame = pd.DataFrame(ohe_values.todense(), index = data.index, columns = le.classes_)
+        data = data.join(ohe_frame);
+        data.drop('crystal_system', axis = 1, inplace = True);
         #we should only do one hot encodings for labels with small numbers of distinct labels
         # if(len(set(a)) < 10):
         #     ohe = OneHotEncoder();

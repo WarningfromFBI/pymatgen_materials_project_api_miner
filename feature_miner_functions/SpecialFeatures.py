@@ -38,7 +38,7 @@ def electronegativity(picklestruct):
         EN.append(pauling_electronegativity);
     #for tracking, it is probably easier to design the features
     #so that the return object is a dictionary
-    data = {'EN_mean': np.mean(EN), 'ENmax': np.max(EN), 'ENmin': np.min(EN), \
+    data = {'EN_mean': np.mean(EN), 'ENMax': np.max(EN), 'ENMin': np.min(EN), \
             'ENStd': np.std(EN)}
     return data;
 
@@ -81,6 +81,31 @@ def DistancefromCoM(picklestruct):
     data = { 'maxCentralDistance': np.max(R), 'minCentralDistance': np.min(R), \
              'avgCentralDistance': np.mean(R), 'avgCentralDistance Std': np.std(R)}
     return data
+
+def getShannonChargeStrength(picklestruct):
+    #the shannon charge state assigns an 'oxidation' to every atom...let's treat this
+    #as a charge and then calculate the bond forces using the oxidation number
+    #using coulomb's law
+    try:
+        BV = pabv.BVAnalyzer();
+        oxistateStructure = BV.get_oxi_state_decorated_structure(picklestruct);
+        radius =np.mean(picklestruct.lattice.abc);
+        ShannonForces = list();
+        for site in oxistateStructure.sites:
+            oxistate = site.specie._oxi_state #this is the charge
+            d1 = site.frac_coords; #use fractional coords as it is more comparable
+            neighborsites = oxistateStructure.get_neighbors(site, radius);
+            for site2 in neighborsites:
+                oxistate2 = site2[0].specie._oxi_state;
+                d2 = site2[0].frac_coords; #we have to use frac_coords as it normalizes all materials
+                F = oxistate2*oxistate/(np.dot(d1-d2, d1-d2))
+                ShannonForces.append(F);
+        data = { 'ShannonMaxForce': np.max(ShannonForces), 'ShannonMaxForce': np.min(ShannonForces), \
+             'ShannonMeanForce': np.mean(ShannonForces), 'ShannonStdForce': np.std(ShannonForces)}
+        return data
+    except ValueError as e:
+        return { 'ShannonMaxForce': 0, 'ShannonMaxForce': 0, \
+             'ShannonMeanForce': 0, 'ShannonStdForce': 0}
 
 # def Voronoi(picklestruct):
 #     '''

@@ -52,7 +52,7 @@ def ElectronegativeCount(unit_cell_formula): #this does not do a good job of uni
         else:
             nonMetal +=1;
         count+= 1;
-    return [halogen/count, transMetal/count, nonMetal/count];
+    return {'halogen': halogen/count, 'transition': transMetal/count, 'nonmetal': nonMetal/count};
 
 def unitCellMass(unit_cell_formula):
     Mass = 0; label = 'MassUnitcell'
@@ -92,10 +92,6 @@ def vanderWaalRadius(unit_cell_formula, volume):
     answer =  (volume-Vtot)/volume;
     return answer;
 
-def VegardCoefficients(unit_cell_formula):
-    #given unlithiated and Li,
-    #calculate projected unit cell parameter
-    return None;
 
 def spacegroup(matdata):
     hall = matdata['spacegroup']['hall']
@@ -103,16 +99,8 @@ def spacegroup(matdata):
     number = matdata['spacegroup']['number']
     point_group = matdata['spacegroup']['point_group']
     return [cs, number, point_group, hall];
-## GENERAL FUNCTIONS TO GET ALL LABELS FOR THESE PROPERIES
 
-def getAllFeatures(matdata):
-    unit_cell_formula = matdata['unit_cell_formula']
-    a2 = ElementNorm(unit_cell_formula);
-    a3 = atomicNumber(unit_cell_formula);
-    sg = spacegroup(matdata);
-    labels = [];
 
-    return [a2, a3] + matdata
 
 
 

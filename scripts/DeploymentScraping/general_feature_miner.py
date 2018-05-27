@@ -7,6 +7,7 @@ assumes the function outputs a smart piece of data, a dictionary
 
 from feature_miner_functions import SpecialFeatures
 from feature_miner_functions import FINAL_PAPER_FEATURES
+from feature_miner_functions import Bond_Order_Features
 #important that every feature accepts a picklestruct
 
 
@@ -25,7 +26,7 @@ from feature_miner_functions import ShannonFeatures as BSF;
 
 '''
 this is a special function which can read any of the feature miner scripts
-and execute one or SOME of the functions
+and execute all the functions and put it into a dataframe
 
 the only requirements is that all the functions must accept a picklestruct
 and output everything as a DICTIONARY (which is more efficient anyways)
@@ -39,7 +40,7 @@ directory = os.path.join(settings.ROOT_DIR,'Materials_Project_Database');
 structureDir = os.path.join(settings.basedirectory, 'structure_database');
 
 #THIS BECOMES VERY SLOW WHEN WE USE PYMATGEN's IONIC VALENCE CALCULATOR
-dump_name = os.path.join(settings.ROOT_DIR, 'data_dump', 'mp_vegard_features.csv');
+dump_name = os.path.join(settings.ROOT_DIR, 'data_dump', 'mp_new_structure_features.csv');
 if(not os.path.isfile(dump_name) or os.stat(dump_name).st_size == 0):
     print('starting')
     datframe = pd.DataFrame();
@@ -72,10 +73,7 @@ for filename in os.listdir(directory):
 
         all_functions = inspect.getmembers(FINAL_PAPER_FEATURES, inspect.isfunction)
         for key, value in all_functions:
-            if str(inspect.signature(value)) == "ionicityOfLattice(picklestruct)" or \
-               str(inspect.signature(value)) == "getCellSymmetryOps(picklestruct)" or \
-               str(inspect.signature(value)) == "VegardCoefficientsApprox(picklestruct)"    :
-
+            if str(inspect.signature(value)) == "(picklestruct)":
                 data = value(picklestruct)
                 #print(data)
                 #iterate through keys of data
@@ -83,14 +81,14 @@ for filename in os.listdir(directory):
                     datframe.set_value(ID, key, data[key])
         #print(datframe)
         if(testcounter%1000 == 0):
-            print(datframe.shape)
+            print(datframe.shape);
+            print('errors: '+str(errors))
     except Exception as e:
         #dump the file so we don't lose any progress we made during the mining process
-
         datframe.to_csv(dump_name)
-        raise
-        errors+=1;
+        #print(inspect.signature(value))
 
+        errors+=1;
         print(e)
 
 print('ERRORS ENCOUNTERED: '+str(errors))

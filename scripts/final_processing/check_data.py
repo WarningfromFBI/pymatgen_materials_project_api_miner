@@ -10,6 +10,7 @@ import settings
 import pandas as pd
 directory = os.path.join(settings.ROOT_DIR,'data_dump');
 
+
 file = os.path.join(directory, 'materials_project.csv');
 data = pd.read_csv(file, index_col = 0);
 print('start: '+str(data.shape))
@@ -20,3 +21,12 @@ print(data.shape)
 for col in data.columns:
     if(data[col].dtype == 'object'):
         print(col)
+
+
+
+file = os.path.join(directory, 'mp_symmetry_features.csv');
+data = pd.read_csv(file, index_col = 0);
+print('start: '+str(data.shape))
+data = data.T;
+print(data.shape);
+data.to_csv(os.path.join(directory, 'mp_symmetry_features.csv'))

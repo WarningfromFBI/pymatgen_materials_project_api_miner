@@ -12,6 +12,7 @@ import pymatgen.analysis.defects.point_defects as pdf
 import os
 ## THIS IS STILL UNDER DEVELOPMENT AS THERE ARE AMBIGUITIES ABOUT OXIDATION NUMBER FOR
 ## CERTAIN COMPOUNDS
+## REDUNDANT SET OF FUNCTIONS
 
 structureDir = os.path.join(settings.ROOT_DIR, 'structure_database');
 ShannonBase = os.path.join(settings.ROOT_DIR, 'Shannon_Radii');

@@ -5,7 +5,7 @@ import json;
 import time
 import settings
 import pickle
-import APIMining.MaterialsAPIMiner.AddMPIDToManifest as manifest
+import API_mining.MaterialsAPIMiner.AddMPIDToManifest as manifest
 '''
  fundamental difference between this and the materials_data_and_structure is that this thing mines the structure
  as a pymatgen structure object, so there's a higher level of abstraction and also accessibility to all of pymatgens

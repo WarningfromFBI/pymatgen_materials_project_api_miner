@@ -19,6 +19,11 @@ elemental_valence_data = pabv.all_data;
 #elementalValenceData contains two pieces of information, a bvsum and a 'occurence'
 bond_valences = elemental_valence_data['bvsum']; #process the bond valences to get averages for each element
 average_bond_valences = dict();
+
+'''
+These are the single most expensive features to mine
+'''
+
 for key in bond_valences:
     if(key[0:2] not in average_bond_valences.keys()):
         average_bond_valences[key[0:2]] = list();
@@ -236,11 +241,6 @@ def EwaldEnergetics(picklestruct):
         picklestruct.add_oxidation_state_by_element(oxDict);
         energy = Ewald.get_energy(picklestruct)
         return energy;
-
-def IsingEnergetics(picklestruct):
-    radius = 4; J = 1; #this interaction parameter should depend on something, not be uniform
-    Ising = paem.IsingModel(J, radius);
-    return Ising.get_energy(picklestruct);
 
 
 

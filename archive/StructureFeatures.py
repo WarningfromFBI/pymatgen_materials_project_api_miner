@@ -101,12 +101,12 @@ def oxidationStateFlexibility(picklestruct):
     return [np.mean(diffs)/(len(picklestruct.sites)), np.std(diffs)/(len(picklestruct.sites)),
             np.max(diffs)/(len(picklestruct.sites)), np.min(diffs)/(len(picklestruct.sites))];
 
-def oxidationStateVolumeFlexibility(pickleStruct):
+def oxidationStateVolumeFlexibility(picklestruct):
     #how much does atomic volume change when charge state changes
     #we can use physical volumes as we normalize to teh volume of the unit cell
-    volume = pickleStruct.volume;
+    volume = picklestruct.volume;
     VolChange = 0;
-    for site in pickleStruct.sites:
+    for site in picklestruct.sites:
         elem = site.specie.value;
         ShannonPoint = ShannonData[elem]
         maxrad = 0; minrad = float('inf');
@@ -120,20 +120,20 @@ def oxidationStateVolumeFlexibility(pickleStruct):
     VolChange += volDiff;
     return VolChange/volume; #does this need a normalization to the unit cell?
 
-def VolumeByAvgIonicRadius(pickleStruct):
-    volume = pickleStruct.volume;
+def VolumeByAvgIonicRadius(picklestruct):
+    volume = picklestruct.volume;
     Vtot = 0;
-    for site in pickleStruct.sites:
+    for site in picklestruct.sites:
         elem = site.specie;
         avgionicrad = elem.average_ionic_radius
         Vtot += ch.sphereVol(avgionicrad);
     return (volume - Vtot)/volume;
 
 #SHANNON RADII MINING...all features should be normalized so they can be comparable between compounds
-def VolumeByShannonRadii(pickleStruct):
-    volume = pickleStruct.volume;
+def VolumeByShannonRadii(picklestruct):
+    volume = picklestruct.volume;
     Vtot = 0;
-    for site in pickleStruct.sites:
+    for site in picklestruct.sites:
         elem = site.specie.value;
         coordin_no = site.coordination_no;
         ShannonPoint = ShannonData[elem];
@@ -149,10 +149,10 @@ def VolumeByShannonRadii(pickleStruct):
         Vtot += v;
     return (volume - Vtot)/volume;
 
-def VolumeFlexibilityByShannonRadii(pickleStruct): #change in volume when anion charge state is modified
-    startVol = VolumeByShannonRadii(pickleStruct);
+def VolumeFlexibilityByShannonRadii(picklestruct): #change in volume when anion charge state is modified
+    startVol = VolumeByShannonRadii(picklestruct);
     TotDeltaVol = 0;
-    for site in pickleStruct.sites:
+    for site in picklestruct.sites:
         elem = site.specie.value;
         coordin_no = site.coordination_no;
         ShannonPoint = ShannonData[elem];
@@ -192,10 +192,10 @@ def ElectronegativitySolid(picklestruct): #taken from Davies and Butler using a 
         root+=1;
     return elemElectroneg**(1/root)
 
-def deltaShannonRadii(pickleStruct):
-    initialVol = pickleStruct.volume;
+def deltaShannonRadii(picklestruct):
+    initialVol = picklestruct.volume;
     deltaVolList = list();
-    for site in pickleStruct.sites:
+    for site in picklestruct.sites:
         elem = site.specie.value;
         coordin_no = site.coordination_no;
         ShannonPoint = ShannonData[elem];
@@ -225,10 +225,10 @@ def deltaShannonCrystalRadii(pickleStruct):
     return [np.mean(deltaVolList), np.std(deltaVolList), np.min(deltaVolList), np.max(deltaVolList)]/(initialVol)**(1/3);
 
 #if the unit cell atoms consist of mostly positive oxidation state elements, then why would it let lithium come in?
-def CellOxidationStateDensity(pickleStruct): #normalize against the total number of elements...
-    numElements = len(pickleStruct.sites); initialVol = pickleStruct.volume;
+def CellOxidationStateDensity(picklestruct): #normalize against the total number of elements...
+    numElements = len(picklestruct.sites); initialVol = picklestruct.volume;
     positiveOxPop = 0; negativeOxPop = 0;
-    for site in pickleStruct.sites:
+    for site in picklestruct.sites:
         elem = site.specie.value;
         ShannonPoint = ShannonData[elem]; #Shannon Radii contains ONLY POSITIVE OXidation STATE MATERIALS!!!
         check = True; counter = 0;
@@ -248,10 +248,10 @@ def CellOxidationStateDensity(pickleStruct): #normalize against the total number
 def SpaceGroup(picklestruct): #numbers ranging from 1 to 230, would be nice to find a way to weight these
     return picklestruct.get_space_group_info()[1];
 
-# def detLatticeVectors(picklestruct): #not a physically meaningful feature, convert to some other property of the lattice vector
-#     latticeVec = picklestruct.lattice.matrix;
-#     determinant = np.linalg.det(latticeVec);
-#     return determinant;
+def detLatticeVectors(picklestruct): #not a physically meaningful feature, convert to some other property of the lattice vector
+    latticeVec = picklestruct.lattice.matrix;
+    determinant = np.linalg.det(latticeVec);
+    return determinant;
 
 def CenterofMass(picklestruct):
     '''
@@ -296,6 +296,11 @@ def changeinForceUponStrain(picklestruct):
     return None
 
 def ChargeMomentOfInertia(picklestruct):
+    '''
+    moment of inertia seems sort of extraneous
+    :param picklestruct:
+    :return:
+    '''
     SPA = psa.SpacegroupAnalyzer(picklestruct);
     picklestruct = SPA.get_conventional_standard_structure();
     Rcm = CenterofMass(picklestruct); #fractional coords
@@ -377,7 +382,7 @@ def GetAllStructureFeatures(structure, picklestruct):
                'deltacrystal2','deltacrystal3','deltacrystal4', 'coordination std']
 
     labelsc = ['solid electronegativity', 'charge moment of inertia', 'mass moment of inertia', 'negativeoxdensity',
-               'averageNumNN', 'stdNumNN'];
+               'averageNumNN', 'STDNumNN'];
 
     labels = labelsa + labelsb + labelsc
     data = adata + bdata + cdata;
